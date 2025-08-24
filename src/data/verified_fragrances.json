@@ -1,0 +1,641 @@
+{
+  "fragrances": [
+    {
+      "id": 0,
+      "bookId": null,
+      "originalName": "AC'SCENT 25",
+      "baseScent": "라벤더",
+      "literaryName": "문학의 정원",
+      "description": "차분하고 아로마틱한 허브 향으로, 고급스러운 평온함이 특징입니다. 영국의 고택에서 느낄 수 있는 품격 있는 허브 향취가 특징이며, 문학과 향기가 만나는 특별한 순간을 상징합니다. BOOKFESTIVAL의 모든 이야기가 시작되는 곳, 문학의 정원에서 피어나는 향입니다.",
+      "matchReason": "BOOKFESTIVAL 전체를 대표하는 특별한 향으로, 모든 문학 작품들이 모이는 정원을 상징합니다.",
+      "characteristics": {
+        "citrus": 3,
+        "floral": 3,
+        "woody": 8,
+        "musk": 8,
+        "fruity": 1,
+        "spicy": 7
+      },
+      "mood": ["차분한", "지적인", "클래식한", "평온한"],
+      "intensity": "medium",
+      "category": "허브/아로마틱"
+    },
+    {
+      "id": 1,
+      "bookId": 1,
+      "originalName": "AC'SCENT 05",
+      "baseScent": "비터 오렌지",
+      "literaryName": "절망 속에서 피어나는 희망",
+      "description": "쌉싸래하면서도 강렬한 시트러스 향으로, 절망적 현실 속에서도 꺾이지 않는 의지를 표현합니다. 열네 살 소년의 절박한 외침처럼 강렬하면서도, 해가 다시 떠오를 희망을 품고 있는 복합적인 향입니다.",
+      "matchReason": "옌롄커의 '해가 죽던 날'의 절망과 희망이 공존하는 테마와 열네 살 소년의 강렬한 절박함에 매칭",
+      "characteristics": {
+        "citrus": 7,
+        "floral": 3,
+        "woody": 6,
+        "musk": 3,
+        "fruity": 4,
+        "spicy": 8
+      },
+      "mood": ["절박한", "강렬한", "희망적인", "복합적인"],
+      "intensity": "strong",
+      "category": "시트러스"
+    },
+    {
+      "id": 2,
+      "bookId": 2,
+      "originalName": "AC'SCENT 08",
+      "baseScent": "튜베로즈",
+      "literaryName": "백야 속 발레리나의 꿈",
+      "description": "관능적이고 깊이 있는 화이트 플로럴 향으로, 페테르부르크의 백야처럼 신비롭고 매혹적입니다. 열여덟 살 발레리나의 우아함과 성숙함을 담고 있으며, 밤이 없는 도시의 몽환적인 아름다움을 표현합니다.",
+      "matchReason": "김주혜의 '밤새들의 도시'의 페테르부르크 백야와 발레리나의 우아하고 성숙한 매력에 매칭",
+      "characteristics": {
+        "citrus": 4,
+        "floral": 9,
+        "woody": 1,
+        "musk": 3,
+        "fruity": 5,
+        "spicy": 2
+      },
+      "mood": ["우아한", "신비로운", "관능적인", "몽환적인"],
+      "intensity": "strong",
+      "category": "플로럴"
+    },
+    {
+      "id": 3,
+      "bookId": 3,
+      "originalName": "AC'SCENT 27",
+      "baseScent": "스모키 블렌드 우드",
+      "literaryName": "상실의 깊은 숲",
+      "description": "그윽하고 짙은 우디 향으로, 상실과 슬픔의 깊이를 표현합니다. 50대 남성 작가의 성숙하고 무거운 사유처럼 오랜 시간 숙성된 듯한 깊이 있는 향취가 특징이며, 살아남은 자의 책임감을 담고 있습니다.",
+      "matchReason": "마테오 B. 비앙키의 '남겨진 자들의 삶'의 상실과 슬픔, 50대 남성의 깊고 무거운 사유에 매칭",
+      "characteristics": {
+        "citrus": 1,
+        "floral": 3,
+        "woody": 9,
+        "musk": 7,
+        "fruity": 4,
+        "spicy": 7
+      },
+      "mood": ["깊은", "사유적인", "성숙한", "무거운"],
+      "intensity": "strong",
+      "category": "우디"
+    },
+    {
+      "id": 4,
+      "bookId": 4,
+      "originalName": "AC'SCENT 04",
+      "baseScent": "베르가못",
+      "literaryName": "봄날의 첫 기억",
+      "description": "신선하고 청량감 있는 시트러스 향으로, 어린 시절의 순수한 기억을 담고 있습니다. 세 살 봄날 바다에서의 첫걸음마처럼 맑고 따뜻한 향취가 특징이며, 성장과 시간의 소중함을 표현합니다.",
+      "matchReason": "아드리앵 파를랑주의 '봄은 또 오고'의 순수한 어린 시절 기억과 봄의 따뜻함에 매칭",
+      "characteristics": {
+        "citrus": 8,
+        "floral": 7,
+        "woody": 3,
+        "musk": 4,
+        "fruity": 6,
+        "spicy": 1
+      },
+      "mood": ["순수한", "따뜻한", "맑은", "그리운"],
+      "intensity": "light",
+      "category": "시트러스"
+    },
+    {
+      "id": 5,
+      "bookId": 5,
+      "originalName": "AC'SCENT 28",
+      "baseScent": "레더",
+      "literaryName": "서부의 거친 형제들",
+      "description": "고급스럽고 세련된 가죽 향으로, 서부 시대의 거친 남성미를 현대적으로 재해석했습니다. 형제 킬러들의 블랙 코미디처럼 강렬하면서도 세련된 향취가 특징이며, 가족의 복잡한 이야기를 담고 있습니다.",
+      "matchReason": "패트릭 드윗의 '시스터스 브라더스'의 서부 배경과 형제 킬러들의 거친 남성미에 매칭",
+      "characteristics": {
+        "citrus": 2,
+        "floral": 1,
+        "woody": 6,
+        "musk": 7,
+        "fruity": 5,
+        "spicy": 8
+      },
+      "mood": ["거친", "남성적인", "강렬한", "세련된"],
+      "intensity": "strong",
+      "category": "레더"
+    },
+    {
+      "id": 6,
+      "bookId": 6,
+      "originalName": "AC'SCENT 01",
+      "baseScent": "블랙베리",
+      "literaryName": "붉은 눈의 공포",
+      "description": "달콤하면서도 신선한 과즙이 터지는 듯한 프루티한 향이지만, 그 안에 숨겨진 어둠을 품고 있습니다. 토끼들의 붉은 눈처럼 달콤한 겉모습 뒤에 숨겨진 오싹한 진실을 표현하는 이중적인 향입니다.",
+      "matchReason": "엘비라 나바로의 '토끼들의 섬'의 공포 소설 특성과 붉은 눈의 토끼들의 이미지에 매칭",
+      "characteristics": {
+        "citrus": 2,
+        "floral": 3,
+        "woody": 5,
+        "musk": 2,
+        "fruity": 7,
+        "spicy": 1
+      },
+      "mood": ["달콤한", "오싹한", "이중적인", "신비로운"],
+      "intensity": "medium",
+      "category": "프루티"
+    },
+    {
+      "id": 7,
+      "bookId": 7,
+      "originalName": "AC'SCENT 12",
+      "baseScent": "은방울꽃",
+      "literaryName": "속눈썹 습지의 시선",
+      "description": "달콤하고 매혹적인 플로럴 향으로, 내면의 눈과 시선을 탐구하는 시적 감성을 담고 있습니다. 속눈썹 습지를 헤치며 들어가는 여성의 강단 있지만 조용한 목소리처럼 섬세하고 투명한 향취가 특징입니다.",
+      "matchReason": "후즈키 유미의 '속눈썹 습지'의 눈과 시선에 대한 시적 탐구와 젊은 여성의 내면적 강인함에 매칭",
+      "characteristics": {
+        "citrus": 2,
+        "floral": 8,
+        "woody": 5,
+        "musk": 6,
+        "fruity": 6,
+        "spicy": 1
+      },
+      "mood": ["섬세한", "시적인", "투명한", "내성적인"],
+      "intensity": "medium",
+      "category": "플로럴"
+    },
+    {
+      "id": 8,
+      "bookId": 8,
+      "originalName": "AC'SCENT 24",
+      "baseScent": "이탈리안만다린",
+      "literaryName": "진실과 거짓말 사이",
+      "description": "밝고 산뜻한 시트러스 향으로, 복잡한 진실의 실체를 탐구하는 서간문의 따뜻함을 담고 있습니다. 50대 남성의 유쾌하면서도 진정된 목소리처럼 피부에 와닿는 따뜻한 햇살 같은 향취가 특징입니다.",
+      "matchReason": "요나스 하센 케미리의 '몬테코어'의 서간문 형식과 진실과 거짓말 사이의 복잡함, 50대 남성의 따뜻한 목소리에 매칭",
+      "characteristics": {
+        "citrus": 7,
+        "floral": 3,
+        "woody": 5,
+        "musk": 8,
+        "fruity": 5,
+        "spicy": 1
+      },
+      "mood": ["따뜻한", "복잡한", "유쾌한", "진정한"],
+      "intensity": "medium",
+      "category": "시트러스"
+    },
+    {
+      "id": 9,
+      "bookId": 9,
+      "originalName": "AC'SCENT 19",
+      "baseScent": "바다소금",
+      "literaryName": "해변에 밀려온 희망",
+      "description": "미네랄한 워터리 향으로, 거대한 해양 재난 이후의 세계를 표현합니다. 베이가 해변에서 기다리는 희망처럼 짭조름한 바다의 공기와 함께 새로운 가능성을 담고 있는 청정한 향입니다.",
+      "matchReason": "세라 핀스커의 '언젠가 모든 것은 바다로 떨어진다'의 해양 재난 배경과 해변에서의 희망적 만남에 매칭",
+      "characteristics": {
+        "citrus": 8,
+        "floral": 3,
+        "woody": 5,
+        "musk": 2,
+        "fruity": 4,
+        "spicy": 1
+      },
+      "mood": ["청정한", "희망적인", "미네랄한", "상쾌한"],
+      "intensity": "light",
+      "category": "아쿠아틱"
+    },
+    {
+      "id": 10,
+      "bookId": 10,
+      "originalName": "AC'SCENT 22",
+      "baseScent": "화이트로즈",
+      "literaryName": "미친 여자들의 연대",
+      "description": "섬세하고 순수한 로즈 향으로, 억압받은 여성들의 순수한 연대를 표현합니다. 외제니의 조용한 결심처럼 맑고 깨끗한 향취 속에 강인한 의지를 담고 있으며, 해방을 향한 여성들의 아름다운 연대를 상징합니다.",
+      "matchReason": "빅토리아 마스의 '미친 여자들의 무도회'의 여성 억압과 해방, 연대의 테마에 매칭",
+      "characteristics": {
+        "citrus": 2,
+        "floral": 6,
+        "woody": 2,
+        "musk": 8,
+        "fruity": 2,
+        "spicy": 2
+      },
+      "mood": ["순수한", "강인한", "연대하는", "해방적인"],
+      "intensity": "medium",
+      "category": "플로럴"
+    },
+    {
+      "id": 11,
+      "bookId": 11,
+      "originalName": "AC'SCENT 20",
+      "baseScent": "타임",
+      "literaryName": "제주의 아픈 기억",
+      "description": "허브러스하고 스파이시한 향으로, 제주 4·3의 깊은 아픔과 역사를 담고 있습니다. 고령 남성의 낮고 쉰 목소리처럼 거친 산속 야생 허브의 강인한 향취가 특징이며, 증언의 무게와 비장함을 표현합니다.",
+      "matchReason": "현기영의 '제주도우다'의 제주 4·3 사건과 고령 남성의 증언, 제주 방언의 무게감에 매칭",
+      "characteristics": {
+        "citrus": 1,
+        "floral": 1,
+        "woody": 8,
+        "musk": 1,
+        "fruity": 1,
+        "spicy": 7
+      },
+      "mood": ["비장한", "거친", "증언하는", "역사적인"],
+      "intensity": "strong",
+      "category": "허브/스파이시"
+    },
+    {
+      "id": 12,
+      "bookId": 12,
+      "originalName": "AC'SCENT 16",
+      "baseScent": "샌달우드",
+      "literaryName": "진짜와 가짜 사이의 신비",
+      "description": "따뜻하고 깊이 있는 우디 향으로, 진짜와 가짜 사이의 경계를 탐구하는 신비로운 감성을 담고 있습니다. 구의 집의 베일에 싸인 건축가처럼 오리엔탈한 매력과 함께 현대인의 정체성 혼란을 표현합니다.",
+      "matchReason": "성해나의 '혼모노'의 진짜와 가짜 사이의 경계 탐구와 정체성 혼란의 테마에 매칭",
+      "characteristics": {
+        "citrus": 1,
+        "floral": 1,
+        "woody": 9,
+        "musk": 3,
+        "fruity": 1,
+        "spicy": 8
+      },
+      "mood": ["신비로운", "깊이 있는", "오리엔탈한", "사색적인"],
+      "intensity": "strong",
+      "category": "우디"
+    },
+    {
+      "id": 13,
+      "bookId": 13,
+      "originalName": "AC'SCENT 14",
+      "baseScent": "민트",
+      "literaryName": "지하 세계의 차가운 각성",
+      "description": "시원하고 상쾌한 허브 향으로, 범람체에 의해 지하로 내몰린 세계의 차가운 현실을 표현합니다. 여성 청소년의 강한 호흡과 격양된 감정처럼 크리스탈같이 맑은 청량감이 특징이며, 절망 속에서도 깨어있는 의식을 상징합니다.",
+      "matchReason": "김초엽의 '파견자들'의 SF적 설정과 지하 세계, 여성 청소년의 강렬한 감정에 매칭",
+      "characteristics": {
+        "citrus": 8,
+        "floral": 1,
+        "woody": 6,
+        "musk": 3,
+        "fruity": 4,
+        "spicy": 7
+      },
+      "mood": ["차가운", "각성하는", "강렬한", "미래적인"],
+      "intensity": "strong",
+      "category": "허브"
+    },
+    {
+      "id": 14,
+      "bookId": 14,
+      "originalName": "AC'SCENT 21",
+      "baseScent": "머스크",
+      "literaryName": "무지개 눈의 부드러운 세계",
+      "description": "부드럽고 포근한 머스크 향으로, 시각장애인의 감각적 세계를 표현합니다. 여성의 서정적이고 부드러운 목소리처럼 벨벳같이 부드러운 관능미가 특징이며, 보이지 않는 세계의 따뜻한 감성을 담고 있습니다.",
+      "matchReason": "김숨의 '무지개 눈'의 시각장애인의 감각적 세계와 여성의 서정적이고 부드러운 목소리에 매칭",
+      "characteristics": {
+        "citrus": 2,
+        "floral": 3,
+        "woody": 4,
+        "musk": 7,
+        "fruity": 1,
+        "spicy": 4
+      },
+      "mood": ["부드러운", "감각적인", "포근한", "서정적인"],
+      "intensity": "medium",
+      "category": "머스크"
+    },
+    {
+      "id": 15,
+      "bookId": 15,
+      "originalName": "AC'SCENT 15",
+      "baseScent": "페티그레인",
+      "literaryName": "시차와 시대착오의 향연",
+      "description": "청량하고 스파클링한 시트러스 향으로, 시간과 공간의 어긋남을 표현합니다. 4050 여성의 내성적이고 사유적인 목소리처럼 깊이 있으면서도 상쾌한 향취가 특징이며, 현대인의 소외와 단절 속에서도 찾아오는 여유로움을 담고 있습니다.",
+      "matchReason": "전하영의 '시차와 시대착오'의 시간과 공간의 어긋남, 현대인의 소외와 4050 여성의 사유적 목소리에 매칭",
+      "characteristics": {
+        "citrus": 8,
+        "floral": 7,
+        "woody": 2,
+        "musk": 4,
+        "fruity": 3,
+        "spicy": 3
+      },
+      "mood": ["사유적인", "여유로운", "깊이 있는", "세련된"],
+      "intensity": "medium",
+      "category": "시트러스"
+    },
+    {
+      "id": 16,
+      "bookId": 16,
+      "originalName": "AC'SCENT 10",
+      "baseScent": "튤립",
+      "literaryName": "유리 광장의 투명한 시간",
+      "description": "부드럽고 섬세한 플로럴 향으로, 일상의 순간들을 투명하게 그려내는 시적 감성을 담고 있습니다. 30대 후반 여성의 나직하고 부드러운 목소리처럼 맑고 순수한 봄의 향기가 특징이며, 느린 호흡과 여백의 아름다움을 표현합니다.",
+      "matchReason": "윤은성의 '유리 광장에서'의 투명하고 섬세한 일상의 시적 표현과 30대 후반 여성의 부드러운 목소리에 매칭",
+      "characteristics": {
+        "citrus": 4,
+        "floral": 8,
+        "woody": 2,
+        "musk": 3,
+        "fruity": 4,
+        "spicy": 1
+      },
+      "mood": ["투명한", "섬세한", "시적인", "부드러운"],
+      "intensity": "light",
+      "category": "플로럴"
+    },
+    {
+      "id": 17,
+      "bookId": 17,
+      "originalName": "AC'SCENT 09",
+      "baseScent": "오렌지 블라썸",
+      "literaryName": "춤추는 볼레로의 향연",
+      "description": "청초하고 밝은 화이트 플로럴 향으로, 춤과 움직임의 아름다움을 표현합니다. 모리스 라벨의 볼레로처럼 점점 고조되는 리듬감이 특징이며, 프랑스 리비에라의 아침 정원처럼 생기 넘치는 에너지를 전달합니다.",
+      "matchReason": "이수지의 '춤을 추었어'의 춤과 움직임의 아름다움, 볼레로 음원의 리듬감에 매칭",
+      "characteristics": {
+        "citrus": 6,
+        "floral": 8,
+        "woody": 3,
+        "musk": 4,
+        "fruity": 5,
+        "spicy": 2
+      },
+      "mood": ["생기 넘치는", "리듬감 있는", "우아한", "예술적인"],
+      "intensity": "medium",
+      "category": "플로럴"
+    },
+    {
+      "id": 18,
+      "bookId": 18,
+      "originalName": "AC'SCENT 11",
+      "baseScent": "라임",
+      "literaryName": "호수 위 오리배의 파랑",
+      "description": "신선하고 생동감 있는 시트러스 향으로, 자연과 인간의 관계를 서정적으로 표현합니다. 사춘기 여성의 맑고 여린 목소리처럼 톡 쏘는 듯한 생기발랄함 속에 조심스러운 진지함을 담고 있으며, 우정과 성장의 순간들을 상징합니다.",
+      "matchReason": "장이지의 '오리배가 지나간 호수의 파랑'의 자연과 관계의 서정성, 사춘기 여성의 맑고 조심스러운 목소리에 매칭",
+      "characteristics": {
+        "citrus": 7,
+        "floral": 2,
+        "woody": 4,
+        "musk": 2,
+        "fruity": 6,
+        "spicy": 4
+      },
+      "mood": ["맑은", "생기발랄한", "조심스러운", "서정적인"],
+      "intensity": "medium",
+      "category": "시트러스"
+    },
+    {
+      "id": 19,
+      "bookId": 19,
+      "originalName": "AC'SCENT 02",
+      "baseScent": "만다린 오렌지",
+      "literaryName": "화성 아이의 따뜻한 빛",
+      "description": "밝고 경쾌한 시트러스 향으로, 화성에서도 피어나는 인간성의 따뜻함을 표현합니다. 1020 여성의 부드럽고 은은한 목소리처럼 생동감 있고 활기찬 에너지가 특징이며, 우주 속에서도 변하지 않는 사랑과 희망을 담고 있습니다.",
+      "matchReason": "김성중의 '화성의 아이'의 미래적 배경과 인간성, 1020 여성의 부드러운 목소리와 모성적 사랑에 매칭",
+      "characteristics": {
+        "citrus": 8,
+        "floral": 6,
+        "woody": 3,
+        "musk": 3,
+        "fruity": 7,
+        "spicy": 1
+      },
+      "mood": ["따뜻한", "희망적인", "미래적인", "모성적인"],
+      "intensity": "medium",
+      "category": "시트러스"
+    },
+    {
+      "id": 20,
+      "bookId": 20,
+      "originalName": "AC'SCENT 13",
+      "baseScent": "유자",
+      "literaryName": "하와이 엄마들의 깊은 향",
+      "description": "상큼하고 새콤달콤한 시트러스 향으로, 하와이 이민 1세대 여성들의 깊이 있는 삶을 표현합니다. 4050대 여성의 담담한 목소리처럼 한국 특유의 깊이 있는 시트러스 향이 특징이며, 이민자의 꿈과 현실, 모성의 힘을 담고 있습니다.",
+      "matchReason": "이금이의 '알로하, 나의 엄마들'의 하와이 이민 여성들의 삶과 4050대 여성의 담담한 목소리에 매칭",
+      "characteristics": {
+        "citrus": 8,
+        "floral": 2,
+        "woody": 3,
+        "musk": 6,
+        "fruity": 4,
+        "spicy": 3
+      },
+      "mood": ["깊이 있는", "모성적인", "현실적인", "희망적인"],
+      "intensity": "medium",
+      "category": "시트러스"
+    },
+    {
+      "id": 21,
+      "bookId": 21,
+      "originalName": "AC'SCENT 29",
+      "baseScent": "바이올렛",
+      "literaryName": "흘려 쓴 것들의 보랏빛",
+      "description": "짙고 깊이 있는 플로럴 향으로, 상실과 고통의 흔적을 담담하게 받아쓴 시적 감성을 표현합니다. 50대 여성의 조용한 목소리처럼 신비롭고 강렬한 느낌이 특징이며, 아방가르드한 감성으로 언어와 아름다움의 경계를 탐구합니다.",
+      "matchReason": "이제니의 '그리하여 흘려 쓴 것들'의 상실과 고통의 시적 표현, 50대 여성의 조용하고 깊이 있는 목소리에 매칭",
+      "characteristics": {
+        "citrus": 2,
+        "floral": 6,
+        "woody": 7,
+        "musk": 6,
+        "fruity": 4,
+        "spicy": 2
+      },
+      "mood": ["신비로운", "깊이 있는", "시적인", "아방가르드한"],
+      "intensity": "strong",
+      "category": "플로럴"
+    },
+    {
+      "id": 22,
+      "bookId": 22,
+      "originalName": "AC'SCENT 26",
+      "baseScent": "이탈리안사이프러스",
+      "literaryName": "숨과 입자의 청량한 각성",
+      "description": "시원하고 청량한 우디 향으로, 번아웃에서 벗어나 자아를 발견하는 과정을 표현합니다. 3040대 여성의 사유적이고 담담한 목소리처럼 지중해 사이프러스 숲의 청량한 향취가 특징이며, 진정한 자신을 찾아가는 여정을 상징합니다.",
+      "matchReason": "황여정의 '숨과 입자'의 번아웃과 자아 발견, 3040대 여성의 내적 독백과 사유적 특성에 매칭",
+      "characteristics": {
+        "citrus": 2,
+        "floral": 1,
+        "woody": 8,
+        "musk": 6,
+        "fruity": 4,
+        "spicy": 7
+      },
+      "mood": ["청량한", "각성하는", "사유적인", "자유로운"],
+      "intensity": "medium",
+      "category": "우디"
+    },
+    {
+      "id": 23,
+      "bookId": 23,
+      "originalName": "AC'SCENT 18",
+      "baseScent": "핑크페퍼",
+      "literaryName": "킬러 심여사의 매콤한 유머",
+      "description": "매콤달콤하면서도 스파이시한 향으로, 51세 과부의 킬러 생활을 그린 코믹한 매력을 표현합니다. 50대 여성의 냉소적이고 유머러스한 리듬처럼 현대적이고 세련된 스파이시함이 특징이며, 중년 여성의 강렬한 개성을 담고 있습니다.",
+      "matchReason": "강지영의 '심여사는 킬러'의 코믹 잔혹 스릴러와 50대 여성의 냉소적이고 유머러스한 특성에 매칭",
+      "characteristics": {
+        "citrus": 1,
+        "floral": 1,
+        "woody": 7,
+        "musk": 3,
+        "fruity": 1,
+        "spicy": 8
+      },
+      "mood": ["매콤한", "유머러스한", "강렬한", "개성적인"],
+      "intensity": "strong",
+      "category": "스파이시"
+    },
+    {
+      "id": 24,
+      "bookId": 24,
+      "originalName": "AC'SCENT 23",
+      "baseScent": "스웨이드",
+      "literaryName": "도착하지 않은 얼굴의 부드러움",
+      "description": "부드럽고 섬세한 가죽 향으로, 도착하지 않는 것들에 대한 시적 성찰을 표현합니다. 중성적이고 낮은 목소리처럼 고급스러운 스웨이드 특유의 포근하고 세련된 향취가 특징이며, 정체성과 존재에 대한 깊은 사유를 담고 있습니다.",
+      "matchReason": "이설야의 '내 얼굴이 도착하지 않았다'의 정체성과 존재에 대한 성찰, 중성적이고 차분한 목소리에 매칭",
+      "characteristics": {
+        "citrus": 2,
+        "floral": 6,
+        "woody": 8,
+        "musk": 7,
+        "fruity": 1,
+        "spicy": 4
+      },
+      "mood": ["부드러운", "성찰적인", "중성적인", "세련된"],
+      "intensity": "medium",
+      "category": "레더"
+    },
+    {
+      "id": 25,
+      "bookId": 25,
+      "originalName": "AC'SCENT 17",
+      "baseScent": "레몬페퍼",
+      "literaryName": "더 검은 밤을 원하는 향신료",
+      "description": "상큼하면서도 스파이시한 향으로, SF적 상상력과 환상의 세계를 표현합니다. 중년 남녀의 냉소적이면서도 단호한 목소리처럼 레몬의 상큼함과 후추의 스파이시함이 절묘하게 어우러진 독특한 향이며, 타자성과 일체감의 복합적 감정을 담고 있습니다.",
+      "matchReason": "우다영의 '그러나 누군가는 더 검은 밤을 원한다'의 SF적 환상과 중년 부모의 냉소적 목소리에 매칭",
+      "characteristics": {
+        "citrus": 6,
+        "floral": 1,
+        "woody": 8,
+        "musk": 3,
+        "fruity": 1,
+        "spicy": 7
+      },
+      "mood": ["독특한", "냉소적인", "환상적인", "복합적인"],
+      "intensity": "strong",
+      "category": "스파이시"
+    },
+    {
+      "id": 26,
+      "bookId": 26,
+      "originalName": "AC'SCENT 03",
+      "baseScent": "스트로베리",
+      "literaryName": "스물의 달콤한 추억",
+      "description": "달콤하고 싱그러운 과즙이 터지는 듯한 프루티 향으로, 스무 살의 사랑과 추억을 표현합니다. 50대 중반 남성의 천천히 흘러가는 목소리처럼 사랑스럽고 발랄한 에너지가 특징이며, 첫 사랑의 진실함과 인생의 달콤한 순간들을 담고 있습니다.",
+      "matchReason": "심보선의 '네가 봄에 써야지 속으로 생각했던'의 스무 살 추억과 50대 남성의 회고적 목소리에 매칭",
+      "characteristics": {
+        "citrus": 4,
+        "floral": 6,
+        "woody": 2,
+        "musk": 3,
+        "fruity": 8,
+        "spicy": 1
+      },
+      "mood": ["달콤한", "추억어린", "발랄한", "진실한"],
+      "intensity": "medium",
+      "category": "프루티"
+    },
+    {
+      "id": 27,
+      "bookId": 27,
+      "originalName": "AC'SCENT 07",
+      "baseScent": "로즈",
+      "literaryName": "단 한 사람을 위한 장미",
+      "description": "고전적이고 우아한 플로럴 향으로, 생명을 구할 수 있는 사랑의 힘을 표현합니다. 2030 여성의 낮고 철학적인 목소리처럼 섬세하고 깊이 있는 장미의 향취가 특징이며, 선택과 구원, 시간의 소중함을 담고 있습니다.",
+      "matchReason": "최진영의 '단 한 사람'의 생명과 사랑, 선택의 테마와 2030 여성의 철학적 목소리에 매칭",
+      "characteristics": {
+        "citrus": 5,
+        "floral": 9,
+        "woody": 2,
+        "musk": 3,
+        "fruity": 4,
+        "spicy": 1
+      },
+      "mood": ["우아한", "철학적인", "깊이 있는", "구원적인"],
+      "intensity": "strong",
+      "category": "플로럴"
+    },
+    {
+      "id": 28,
+      "bookId": 28,
+      "originalName": "AC'SCENT 06",
+      "baseScent": "캐럿",
+      "literaryName": "눈에 덜 띄는 대지의 향",
+      "description": "독특하고 청량한 신선함이 특징인 루트 향으로, 눈에 덜 띄는 것들에 대한 섬세한 관찰을 표현합니다. 30대 남성의 회고적이고 성찰적인 목소리처럼 대지의 생명력을 연상시키는 특별한 향이며, 자연스럽고 건강한 남성성을 담고 있습니다.",
+      "matchReason": "이훤의 '눈에 덜 띄는'의 섬세한 관찰과 30대 남성의 회고적이고 성찰적인 목소리에 매칭",
+      "characteristics": {
+        "citrus": 4,
+        "floral": 7,
+        "woody": 2,
+        "musk": 4,
+        "fruity": 3,
+        "spicy": 2
+      },
+      "mood": ["자연스러운", "성찰적인", "건강한", "섬세한"],
+      "intensity": "light",
+      "category": "루트/어시"
+    },
+    {
+      "id": 29,
+      "bookId": 29,
+      "originalName": "AC'SCENT 30",
+      "baseScent": "무화과",
+      "literaryName": "뿌리주의자의 지중해 정원",
+      "description": "달콤하면서도 청아한 과일 향으로, 삶의 근원을 향해 뻗어나가는 시적 탐구를 표현합니다. 60대 중반 여성의 단단하고 낮은 목소리처럼 지중해 정원의 우아한 감성을 담고 있으며, 뿌리와 혁명, 연민의 깊은 철학을 상징합니다.",
+      "matchReason": "김수우의 '뿌리주의자'의 삶의 근원 탐구와 60대 중반 여성의 단단한 목소리, 혁명과 연민의 테마에 매칭",
+      "characteristics": {
+        "citrus": 3,
+        "floral": 5,
+        "woody": 6,
+        "musk": 7,
+        "fruity": 6,
+        "spicy": 3
+      },
+      "mood": ["철학적인", "단단한", "우아한", "근원적인"],
+      "intensity": "medium",
+      "category": "프루티"
+    }
+  ],
+  "metadata": {
+    "totalFragrances": 30,
+    "booksMatched": 29,
+    "specialFragrances": 1,
+    "creationDate": "2025-01-28",
+    "creationMethod": "AI-powered book-fragrance matching based on themes, mood, and character analysis",
+    "lastUpdated": "2025-01-28",
+    "categories": {
+      "플로럴": 6,
+      "시트러스": 6,
+      "우디": 5,
+      "스파이시": 3,
+      "프루티": 3,
+      "허브/아로마틱": 2,
+      "머스크": 1,
+      "레더": 2,
+      "아쿠아틱": 1,
+      "루트/어시": 1
+    },
+    "intensityDistribution": {
+      "light": 4,
+      "medium": 16,
+      "strong": 10
+    },
+    "matchingCriteria": [
+      "책의 주요 테마와 분위기",
+      "화자의 연령대와 성별",
+      "장르적 특성",
+      "감정적 톤과 뉘앙스",
+      "문화적 배경과 시대적 맥락"
+    ],
+    "specialFragrance": {
+      "name": "문학의 정원",
+      "purpose": "BOOKFESTIVAL 전체를 대표하는 시그니처 향",
+      "symbolism": "모든 문학 작품들이 모이는 정원을 상징"
+    }
+  }
+}
