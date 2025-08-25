@@ -1,133 +1,259 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { useSurvey } from '@/contexts/SurveyContext'
 import { SurveyProgress } from '@/components/survey/SurveyProgress'
-import { SurveyNavigation } from '@/components/survey/SurveyNavigation'
 
 export default function Step4Page() {
-  const { formData, updateFormData, setCurrentStep } = useSurvey()
-  const [personalityTraits, setPersonalityTraits] = useState<string[]>(formData.personalityTraits)
+  const router = useRouter()
+  const { formData, updateFormData, setCurrentStep, currentStep } = useSurvey()
+  const [themes, setThemes] = useState<string[]>(formData.themes || [])
 
   useEffect(() => {
     setCurrentStep(4)
   }, [setCurrentStep])
 
-  const personalities = [
-    { name: '내향적', icon: '🤫' },
-    { name: '외향적', icon: '🎉' },
-    { name: '감성적', icon: '💝' },
-    { name: '이성적', icon: '🧠' },
-    { name: '모험적', icon: '🏔️' },
-    { name: '안정적', icon: '🏠' },
-    { name: '창의적', icon: '🎨' },
-    { name: '실용적', icon: '🔧' },
-    { name: '완벽주의', icon: '✨' },
-    { name: '자유로운', icon: '🦋' },
-    { name: '계획적', icon: '📋' },
-    { name: '즉흥적', icon: '🎲' }
-  ]
-
-  const handlePersonalityChange = (traitName: string) => {
-    setPersonalityTraits(prev => 
-      prev.includes(traitName)
-        ? prev.filter(t => t !== traitName)
-        : [...prev, traitName]
+  const handleThemeToggle = (theme: string) => {
+    setThemes(prev => 
+      prev.includes(theme) 
+        ? prev.filter(t => t !== theme)
+        : [...prev, theme]
     )
   }
 
   const handleNext = () => {
-    updateFormData({ personalityTraits })
+    updateFormData({ themes })
+    // 약간의 지연 후 다음 페이지로 이동
+    setTimeout(() => {
+      const nextStep = currentStep + 1
+      setCurrentStep(nextStep)
+      router.push(`/survey/step-${nextStep}`)
+    }, 100)
   }
 
-  const isValid = personalityTraits.length > 0
+  const handlePrev = () => {
+    if (currentStep > 1) {
+      const prevStep = currentStep - 1
+      setCurrentStep(prevStep)
+      router.push(`/survey/step-${prevStep}`)
+    }
+  }
+
+  const isValid = themes.length > 0
+
+  const themeCategories = [
+    {
+      title: '인간 관계',
+      themes: [
+        { name: '사랑과 연애', desc: '로맨스와 감정의 세계' },
+        { name: '가족의 의미', desc: '가족 간의 사랑과 갈등' },
+        { name: '우정과 동료', desc: '진정한 우정과 동반자' },
+        { name: '세대 간 이해', desc: '다른 세대와의 소통' }
+      ]
+    },
+    {
+      title: '성장과 도전',
+      themes: [
+        { name: '꿈과 목표', desc: '인생의 목표와 꿈 추구' },
+        { name: '역경과 극복', desc: '어려움을 이겨내는 힘' },
+        { name: '자아 발견', desc: '진정한 나를 찾는 여정' },
+        { name: '새로운 시작', desc: '변화와 새로운 도전' }
+      ]
+    },
+    {
+      title: '사회와 세상',
+      themes: [
+        { name: '사회 정의', desc: '공정하고 올바른 세상' },
+        { name: '환경과 자연', desc: '자연과 환경 보호' },
+        { name: '문화와 전통', desc: '역사와 문화 유산' },
+        { name: '미래와 기술', desc: '과학기술과 미래 사회' }
+      ]
+    },
+    {
+      title: '내면과 철학',
+      themes: [
+        { name: '삶의 의미', desc: '존재의 이유와 목적' },
+        { name: '죽음과 영원', desc: '생명과 죽음에 대한 성찰' },
+        { name: '행복과 만족', desc: '진정한 행복 찾기' },
+        { name: '고독과 성찰', desc: '혼자만의 시간과 생각' }
+      ]
+    },
+    {
+      title: '예술과 창작',
+      themes: [
+        { name: '예술과 창조', desc: '창작과 예술적 영감' },
+        { name: '음악과 리듬', desc: '음악이 주는 감동' },
+        { name: '여행과 모험', desc: '새로운 곳으로의 여행' },
+        { name: '일상의 아름다움', desc: '평범한 일상 속 특별함' }
+      ]
+    }
+  ]
 
   return (
     <div className="h-screen flex items-center justify-center px-3 py-4 overflow-hidden">
-      <div className="max-w-4xl w-full h-full flex flex-col">
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 md:p-6 border border-white/20 shadow-2xl h-full flex flex-col">
-          {/* 헤더 섹션 - 컴팩트 */}
-          <div className="flex-shrink-0">
-            <SurveyProgress />
-            
-            <div className="text-center mb-4">
-              <h1 className="lego-text text-2xl md:text-3xl mb-2 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-                성격 특성을 선택해주세요
-              </h1>
-              <p className="text-sm text-white">복수 선택 가능 • 나를 가장 잘 표현하는 특성들을 골라주세요</p>
-            </div>
-          </div>
+      <div className="max-w-5xl w-full h-full flex flex-col">
+        {/* 미래지향적 화이트 설문지 */}
+        <div className="bg-white/95 backdrop-blur-xl border border-black/20 rounded-3xl p-4 md:p-6 shadow-2xl relative overflow-hidden h-full flex flex-col">
+          {/* 디지털 노트 패턴 */}
+          <div className="absolute inset-0" style={{
+            backgroundImage: `
+              repeating-linear-gradient(90deg, transparent 0px, transparent 24px, rgba(0,0,0,0.02) 25px, rgba(0,0,0,0.02) 26px),
+              repeating-linear-gradient(0deg, transparent 0px, transparent 29px, rgba(0,0,0,0.03) 30px, rgba(0,0,0,0.03) 31px)
+            `
+          }}></div>
           
-          {/* 메인 콘텐츠 - 스크롤 가능 */}
-          <div className="flex-1 overflow-y-auto overflow-x-hidden mb-4 pr-2 custom-scrollbar">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {personalities.map(personality => {
-                const isSelected = personalityTraits.includes(personality.name)
-                return (
-                  <button
-                    key={personality.name}
-                    type="button"
-                    onClick={() => handlePersonalityChange(personality.name)}
-                    className={`
-                      group relative p-3 rounded-xl border transition-all duration-300
-                      ${isSelected 
-                        ? 'bg-gradient-to-br from-pink-500 to-purple-600 border-pink-400 text-white shadow-lg'
-                        : 'bg-white/5 border-white/20 text-white hover:bg-white/10 hover:border-white/30'
-                      }
-                    `}
-                  >
-                    <div className="flex flex-col items-center gap-2">
-                      <span className="text-2xl group-hover:scale-110 transition-transform duration-200">
-                        {personality.icon}
-                      </span>
-                      <span className={`text-sm font-medium text-center leading-tight ${
-                        isSelected ? 'text-white' : 'text-white'
-                      }`}>
-                        {personality.name}
-                      </span>
-                    </div>
-                    
-                    {/* 선택 표시 */}
-                    {isSelected && (
-                      <div className="absolute top-1 right-1 w-3 h-3 bg-white rounded-full flex items-center justify-center shadow-lg">
-                        <span className="text-xs text-pink-600">✓</span>
-                      </div>
-                    )}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* 하단 섹션 - 고정 */}
-          <div className="flex-shrink-0">
-            {/* 선택된 특성 표시 - 컴팩트 */}
-            {personalityTraits.length > 0 && (
-              <div className="text-center mb-4">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-xl border border-pink-400/30">
-                  <span className="text-pink-300 font-semibold text-sm">
-                    ✨ {personalityTraits.length}개 특성 선택
-                  </span>
-                  {personalityTraits.length <= 4 && (
-                    <div className="flex gap-1">
-                      {personalityTraits.map(traitName => {
-                        const personality = personalities.find(p => p.name === traitName)
-                        return (
-                          <span key={traitName} className="text-xs">
-                            {personality?.icon}
-                          </span>
-                        )
-                      })}
-                    </div>
-                  )}
+          <div className="relative z-10 h-full flex flex-col">
+            {/* 헤더 섹션 - 컴팩트 */}
+            <div className="flex-shrink-0">
+              <SurveyProgress />
+              
+              {/* 설문지 헤더 */}
+              <div className="text-center mb-3">
+                <div 
+                  className="text-gray-500 text-xs mb-2 font-typewriter"
+                >
+                  ◦ Step 4 of 5 - 관심 주제 선택
                 </div>
+                <div 
+                  className="w-full h-px bg-gradient-to-r from-transparent via-black to-transparent mb-3 opacity-20"
+                ></div>
+                <h1 className="font-serif text-2xl md:text-3xl text-black font-bold mb-2">
+                  <span 
+                    className="bg-gradient-to-r from-black via-gray-800 to-black bg-clip-text text-transparent"
+                  >
+                    어떤 세계를 탐험해보고 싶으신가요?
+                  </span>
+                </h1>
+                <p className="text-gray-600 text-sm font-typewriter mb-1">
+                  관심 있는 주제를 선택해주세요 (복수 선택 가능)
+                </p>
+                {themes.length > 0 && (
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-black/5 rounded-full">
+                    <span className="text-black font-semibold text-xs">
+                      ✨ {themes.length}개 선택됨
+                    </span>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
+            
+            {/* 메인 콘텐츠 - 컴팩트 사이즈 */}
+            <div className="flex-grow-0 space-y-9">
+              {themeCategories.slice(0, 3).map((category, categoryIndex) => (
+                <div key={category.title} className="space-y-3">
+                  {/* 카테고리 헤더 */}
+                  <div className="relative">
+                    <div className="flex items-center gap-3 mb-1">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-black rounded-full"></div>
+                        <h3 className="text-sm font-bold text-black font-typewriter tracking-wide">{category.title}</h3>
+                      </div>
+                      <div className="flex-1 h-0.5 bg-gradient-to-r from-black/30 via-black/10 to-transparent rounded-full"></div>
+                      <div className="w-1 h-1 bg-black/40 rounded-full"></div>
+                    </div>
+                    {/* 직선적인 구분선 */}
+                    <div className="absolute -bottom-2 left-0 right-0 h-px bg-gradient-to-r from-black/20 via-black/10 to-black/5"></div>
+                  </div>
+                  
+                  {/* 주제 버튼들 */}
+                  <div className="grid grid-cols-4 gap-1">
+                    {category.themes.map((theme, index) => {
+                      const isSelected = themes.includes(theme.name)
+                      return (
+                        <button
+                          key={theme.name}
+                          type="button"
+                          onClick={() => handleThemeToggle(theme.name)}
+                          className={`
+                            group relative p-4 py-6 rounded-xl border-2 transition-all duration-300 text-center hover:scale-[1.02] hover:shadow-md
+                            ${isSelected 
+                              ? 'border-black bg-black text-white shadow-lg'
+                              : 'border-black/15 bg-white/80 hover:border-black/40 hover:bg-black/5 hover:shadow-lg'
+                            }
+                          `}
+                          style={{}}
+                        >
+                          {/* 선택 시 글로우 효과 */}
+                          {isSelected && (
+                            <div 
+                              className="absolute inset-0 bg-gradient-to-r from-black/5 to-transparent rounded-xl"
+                              style={{ animation: 'pulse-glow 3s ease-in-out infinite' }}
+                            ></div>
+                          )}
+                          
+                          <div className="relative z-10 flex items-center justify-center h-full">
+                            <span className={`font-semibold text-sm font-typewriter transition-colors duration-300 ${
+                              isSelected ? 'text-white' : 'text-black group-hover:text-black'
+                            }`}>
+                              {theme.name}
+                            </span>
+                          </div>
+                          
+                          {/* 선택 표시 */}
+                          {isSelected && (
+                            <div className="absolute top-2 right-2 w-5 h-5 bg-white rounded-full flex items-center justify-center shadow-md">
+                              <div className="w-2 h-2 bg-black rounded-full"></div>
+                            </div>
+                          )}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
 
-            <SurveyNavigation 
-              onNext={handleNext}
-              nextDisabled={!isValid}
-            />
+            {/* 하단 섹션 - 고정 */}
+            <div className="flex-shrink-0 mt-20">
+              {/* 네비게이션 버튼들 - 배경 패턴 안에 위치 */}
+              <div className="flex justify-center items-center gap-6">
+                {/* 이전 버튼 - 화이트 테마 */}
+                <button
+                  onClick={handlePrev}
+                  disabled={currentStep === 1}
+                  className={`
+                    min-w-[120px] px-6 py-3 rounded-xl font-semibold text-base transition-all duration-300 transform border font-typewriter
+                    ${currentStep === 1 
+                      ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed' 
+                      : 'bg-white text-black border-black/20 hover:bg-black/5 hover:border-black/40 hover:scale-105 hover:shadow-lg backdrop-blur-sm'
+                    }
+                  `}
+                >
+                  ← 이전
+                </button>
+                
+                {/* 다음 버튼 */}
+                <button
+                  onClick={handleNext}
+                  disabled={!isValid}
+                  className={`
+                    min-w-[140px] font-serif text-lg px-8 py-3 rounded-xl transition-all duration-300 transform border relative overflow-hidden
+                    ${!isValid
+                      ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+                      : 'bg-black text-white border-black hover:bg-gray-800 hover:scale-105 hover:shadow-xl'
+                    }
+                  `}
+                  style={{
+                    animation: isValid ? 'pulse-glow 3s ease-in-out infinite' : 'none'
+                  }}
+                >
+                  {isValid && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-gray-600/10 to-black/10 hover:from-gray-600/20 hover:to-black/20 transition-all duration-300"></div>
+                  )}
+                  <span className="relative z-10">
+                    다음 →
+                  </span>
+                </button>
+              </div>
+
+              {/* 미래적 장식 */}
+              <div className="flex justify-center items-center gap-4 mt-3 text-gray-400">
+                <div className="w-8 h-px bg-gradient-to-r from-transparent via-black to-transparent opacity-30"></div>
+                <div className="text-xs font-typewriter">4 / 5</div>
+                <div className="w-8 h-px bg-gradient-to-r from-transparent via-black to-transparent opacity-30"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

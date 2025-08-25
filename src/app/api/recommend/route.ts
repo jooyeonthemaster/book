@@ -1,24 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { recommendationEngine } from '@/lib/recommendationService'
 import { UserPreferences } from '@/types'
+import { SurveyDataMapper } from '@/lib/surveyDataMapper'
 
 export async function POST(request: NextRequest) {
   try {
-    const preferences: UserPreferences = await request.json()
+    const rawPreferences = await request.json()
+    console.log('Raw preferences received:', rawPreferences)
     
-    // 입력 데이터 검증
-    if (!preferences.age || !preferences.gender) {
+    // 새로운 5단계 설문 데이터를 기존 형식으로 변환
+    const preferences = SurveyDataMapper.mapToUserPreferences(rawPreferences)
+    console.log('Mapped preferences:', preferences)
+    
+    // 변환된 데이터 유효성 검증
+    const validation = SurveyDataMapper.validateMappedData(preferences)
+    if (!validation.isValid) {
+      console.error('Validation errors:', validation.errors)
       return NextResponse.json(
-        { error: '필수 정보가 누락되었습니다.' },
+        { 
+          error: '설문 데이터가 불완전합니다.',
+          details: validation.errors.join(', ')
+        },
         { status: 400 }
       )
     }
 
-    if (!preferences.favoriteGenres || preferences.favoriteGenres.length === 0) {
-      return NextResponse.json(
-        { error: '선호 장르를 선택해주세요.' },
-        { status: 400 }
-      )
+    // 디버그 정보 출력 (개발 환경에서만)
+    if (process.env.NODE_ENV === 'development') {
+      SurveyDataMapper.debugMapping(rawPreferences, preferences)
     }
 
     // AI 추천 생성
@@ -58,3 +67,5 @@ export async function GET() {
     )
   }
 }
+
+

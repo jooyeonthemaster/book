@@ -1,12 +1,12 @@
-import { GridBackground } from '@/components/GridBackground'
+import { NotebookBackground } from '@/components/NotebookBackground'
 import { HeroSection } from '@/components/HeroSection'
 import { SurveyStartButton } from '@/components/SurveyStartButton'
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen">
-      <GridBackground />
-      <div className="relative z-10">
+    <main className="relative h-screen overflow-hidden">
+      <NotebookBackground />
+      <div className="relative z-10 h-full flex flex-col">
         <HeroSection />
         <SurveyStartButton />
       </div>

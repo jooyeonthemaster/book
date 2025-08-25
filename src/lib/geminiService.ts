@@ -162,7 +162,7 @@ Keywords: ${book.keywords?.join(', ') || 'N/A'}
 
 ### 감각적 선호도의 심리적 배경
 - 향기선호: ${preferences.fragrancePreference || '아직 발견하지 못한 취향'}
-- 독서환경: ${preferences.readingEnvironment || '특별한 공간에 대한 갈망'}
+- 독서습관: ${preferences.readingHabits || '특별한 독서 경험에 대한 갈망'}
   → 이 선호도들이 드러내는 사용자의 감각적 민감성은?
 
 ### 숨겨진 메시지

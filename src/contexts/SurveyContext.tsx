@@ -13,6 +13,14 @@ interface SurveyContextType {
 }
 
 const initialFormData: UserPreferences = {
+  // 새로운 5단계 질문 필드들
+  currentMood: '',
+  lifeStage: '',
+  storyStyle: '',
+  themes: [],
+  bookMeaning: '',
+  
+  // 기존 필드들 (호환성 유지)
   age: '',
   gender: '',
   favoriteGenres: [],
@@ -20,8 +28,6 @@ const initialFormData: UserPreferences = {
   moodPreference: '',
   fragrancePreference: '',
   personalityTraits: [],
-  currentMood: '',
-  readingEnvironment: '',
   additionalNotes: ''
 }
 
@@ -30,7 +36,7 @@ const SurveyContext = createContext<SurveyContextType | undefined>(undefined)
 export function SurveyProvider({ children }: { children: ReactNode }) {
   const [formData, setFormData] = useState<UserPreferences>(initialFormData)
   const [currentStep, setCurrentStep] = useState(1)
-  const totalSteps = 8
+  const totalSteps = 5
 
   const updateFormData = (data: Partial<UserPreferences>) => {
     setFormData(prev => ({ ...prev, ...data }))

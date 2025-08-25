@@ -7,27 +7,67 @@ import { RecommendationResult } from '@/lib/recommendationService'
 import TextCloud from '@/components/TextCloud'
 import FragranceChart from '@/components/FragranceChart'
 import TypewriterNote from '@/components/TypewriterNote'
+import { EnhancedLoadingPage } from '@/components/EnhancedLoadingPage'
+import { EnhancedErrorPage } from '@/components/EnhancedErrorPage'
 
 export default function ResultPage() {
   const { formData, resetFormData } = useSurvey()
   const [isLoading, setIsLoading] = useState(true)
   const [result, setResult] = useState<RecommendationResult | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [imageError, setImageError] = useState(false)
+  const [apiCalled, setApiCalled] = useState(false)
   const router = useRouter()
 
   // 책 표지 이미지 경로 생성 함수
   const getBookCoverPath = (title: string, author: string) => {
-    const fileName = `${author}_${title}.jpg`
-    const encodedFileName = encodeURIComponent(fileName)
-    const path = `/bookcover/${encodedFileName}`
-    console.log('Book cover path:', path) // 디버깅용
-    console.log('Original filename:', fileName) // 디버깅용
+    // 저자명 매핑 (데이터와 실제 파일명이 다른 경우 처리)
+    const authorMapping: { [key: string]: string } = {
+      '마테오 B. 비앙키': '마테오 비앙키',
+      // 필요시 추가 매핑 가능
+    }
+    
+    // 매핑된 저자명 사용 (없으면 원본 사용)
+    const mappedAuthor = authorMapping[author] || author
+    const fileName = `${mappedAuthor}_${title}.jpg`
+    const path = `/bookcover/${fileName}`
+    
+    console.log('=== 이미지 경로 디버깅 ===')
+    console.log('원본 저자명:', author)
+    console.log('매핑된 저자명:', mappedAuthor)
+    console.log('파일명:', fileName)
+    console.log('최종 경로:', path)
+    console.log('========================')
+    
+    // 이미지 존재 여부 미리 체크
+    const img = new Image()
+    img.onload = () => console.log('✅ 이미지 존재:', path)
+    img.onerror = () => console.log('❌ 이미지 없음:', path)
+    img.src = path
+    
     return path
   }
 
   useEffect(() => {
     const generateRecommendation = async () => {
+      if (apiCalled) {
+        console.log('API already called, skipping...')
+        return
+      }
+
       try {
+        console.log('=== Result Page Debug ===')
+        console.log('Form data received:', formData)
+        console.log('========================')
+        
+        if (!formData || Object.keys(formData).length === 0) {
+          console.log('No form data, redirecting to survey')
+          router.push('/survey')
+          return
+        }
+
+        setApiCalled(true)
         console.log('Form data:', formData)
         
         // API 호출
@@ -46,6 +86,11 @@ export default function ResultPage() {
         }
 
         if (data.success) {
+          console.log('=== 새로운 추천 결과 ===')
+          console.log('책 제목:', data.data.book.title)
+          console.log('책 저자:', data.data.book.author)
+          console.log('책 ID:', data.data.book.id)
+          console.log('========================')
           setResult(data.data)
         } else {
           throw new Error('추천 결과를 받을 수 없습니다.')
@@ -59,7 +104,15 @@ export default function ResultPage() {
     }
 
     generateRecommendation()
-  }, [formData])
+  }, [formData, router])
+
+  // result가 변경될 때 이미지 상태 초기화
+  useEffect(() => {
+    if (result) {
+      setImageLoaded(false)
+      setImageError(false)
+    }
+  }, [result?.book?.id]) // book id가 변경될 때만 리셋
 
   const handleRestart = () => {
     resetFormData()
@@ -67,231 +120,305 @@ export default function ResultPage() {
   }
 
   const handleGoHome = () => {
+    resetFormData()
     router.push('/')
   }
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="max-w-2xl w-full">
-          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/20 text-center">
-            <div className="animate-spin w-16 h-16 border-4 border-pink-400 border-t-transparent rounded-full mx-auto mb-8"></div>
-            <h1 className="lego-text text-3xl md:text-4xl mb-4 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-              AI가 분석 중입니다...
-            </h1>
-            <p className="text-gray-300">
-              당신만의 완벽한 조합을 찾고 있어요 ✨
-            </p>
-          </div>
-        </div>
-      </div>
+      <EnhancedLoadingPage 
+        title="AI가 당신의 문학적 취향을 분석 중입니다..."
+        subtitle="완벽한 책과 향기의 조합을 찾고 있어요"
+      />
     )
   }
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="max-w-2xl w-full">
-          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/20 text-center">
-            <div className="text-6xl mb-8">😔</div>
-            <h1 className="lego-text text-3xl md:text-4xl mb-4 bg-gradient-to-r from-red-400 to-pink-400 bg-clip-text text-transparent">
-              오류가 발생했습니다
-            </h1>
-            <p className="text-gray-300 mb-8">{error}</p>
-            <button
-              onClick={handleRestart}
-              className="px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl hover:from-pink-600 hover:to-purple-600 transition-all duration-300 hover-glow"
-            >
-              🔄 다시 시도하기
-            </button>
-          </div>
-        </div>
-      </div>
+      <EnhancedErrorPage
+        title="분석 중 오류가 발생했습니다"
+        message={error}
+        onRetry={handleRestart}
+        retryText="다시 추천받기"
+      />
     )
   }
 
   return (
-    <div className="min-h-screen px-4 py-8">
-      <div className="max-w-6xl mx-auto">
-        {/* 헤더 섹션 */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-2xl animate-pulse">
-              🎯
-            </div>
-            <h1 className="lego-text text-4xl md:text-6xl bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
-              당신을 위한 추천
-            </h1>
-          </div>
-          
-          {result && (
-            <div className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-2xl border border-emerald-400/30 backdrop-blur-sm">
-              <span className="text-3xl animate-bounce">✨</span>
-              <div className="text-center">
-                <div className="text-emerald-300 font-bold text-2xl">{result.confidence}%</div>
-                <div className="text-emerald-200 text-sm">영혼 일치도</div>
-              </div>
-            </div>
-          )}
-        </div>
+    <div className="min-h-screen px-4 py-8 bg-gradient-to-br from-white via-gray-50 to-gray-100">
+      {/* 미래지향적 배경 패턴 */}
+      <div className="fixed inset-0 pointer-events-none">
+        {/* 홀로그램 그리드 */}
+        <div 
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px)
+            `,
+            backgroundSize: '50px 50px'
+          }}
+        />
+        
+        {/* 스캔라인 효과 */}
+        <div 
+          className="absolute inset-0 opacity-5 animate-pulse"
+          style={{
+            background: `repeating-linear-gradient(
+              0deg,
+              transparent,
+              transparent 2px,
+              rgba(0, 0, 0, 0.03) 2px,
+              rgba(0, 0, 0, 0.03) 4px
+            )`
+          }}
+        />
+      </div>
+
+      <div className="max-w-6xl mx-auto relative z-10">
+
 
         {result && (
           <div className="space-y-12">
-            {/* 메인 추천 섹션 - 맨 위로 이동 */}
+            {/* 메인 추천 섹션 */}
             <div className="grid lg:grid-cols-2 gap-8">
               {/* 책 추천 */}
-              <div 
-                className="relative backdrop-blur-lg rounded-3xl p-8 border border-pink-400/20 overflow-hidden"
-                style={{
-                  backgroundImage: `url(${getBookCoverPath(result.book.title, result.book.author)})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat'
-                }}
-              >
-                {/* 배경 오버레이 - 투명도 조정으로 이미지가 더 잘 보이도록 */}
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-900/30 to-rose-900/30 backdrop-blur-sm"></div>
-                <div className="absolute inset-0 bg-black/20"></div>
+              <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 border border-black/20 shadow-2xl relative overflow-hidden">
+                {/* 디지털 노트 패턴 */}
+                <div className="absolute inset-0 z-20" style={{
+                  backgroundImage: `
+                    repeating-linear-gradient(90deg, transparent 0px, transparent 19px, rgba(0,0,0,0.02) 20px, rgba(0,0,0,0.02) 21px),
+                    repeating-linear-gradient(0deg, transparent 0px, transparent 23px, rgba(0,0,0,0.03) 24px, rgba(0,0,0,0.03) 25px)
+                  `
+                }}></div>
                 
                 {/* 콘텐츠 */}
-                <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="text-3xl">📚</span>
-                  <h2 className="text-3xl font-bold bg-gradient-to-r from-pink-300 to-rose-300 bg-clip-text text-transparent">
-                    운명의 책
-                  </h2>
-                </div>
-                
-                <div className="space-y-6">
-                  <div className="text-center">
-                    <h3 className="text-2xl font-bold text-white mb-2">{result.book.title}</h3>
-                    <p className="text-pink-200 text-lg mb-4">by {result.book.author}</p>
-                    <div className="inline-flex px-4 py-2 bg-pink-500/20 rounded-full border border-pink-400/30">
-                      <span className="text-pink-300 text-sm font-medium">{result.book.genre}</span>
+                <div className="relative z-30">
+                  <div className="mb-6">
+                  </div>
+                  
+                  {/* 책 표지 이미지 */}
+                  <div className="flex justify-center mb-6">
+                    <div className="relative">
+                      {/* 로딩 플레이스홀더 */}
+                      {!imageLoaded && !imageError && (
+                        <div className="w-96 h-144 bg-gray-100 rounded-lg shadow-xl border-2 border-black/20 flex items-center justify-center animate-pulse">
+                          <div className="text-gray-400 text-lg font-typewriter text-center">
+                            <div>로딩 중...</div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* 실제 이미지 */}
+                      <img 
+                        src={getBookCoverPath(result.book.title, result.book.author)}
+                        alt={`${result.book.title} 표지`}
+                        className={`w-96 h-144 object-cover rounded-lg shadow-xl border-2 border-black/20 transition-opacity duration-500 ${
+                          imageLoaded ? 'opacity-100 relative' : 'opacity-0 absolute top-0 left-0'
+                        }`}
+                        onLoad={(e) => {
+                          console.log('Image loaded successfully:', e.currentTarget.src)
+                          setImageLoaded(true)
+                          setImageError(false)
+                        }}
+                        onError={(e) => {
+                          console.log('Image failed to load:', e.currentTarget.src)
+                          setImageError(true)
+                          setImageLoaded(false)
+                        }}
+                      />
+                      
+                      {/* 에러시 기본 이미지 */}
+                      {imageError && (
+                        <div className="w-96 h-144 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg shadow-xl border-2 border-black/20 flex flex-col items-center justify-center">
+                          <div className="text-gray-400 text-center font-typewriter">
+                            <div className="text-xl px-6 leading-tight">
+                              {result.book.title}
+                            </div>
+                            <div className="text-xl text-gray-500 mt-4">
+                              {result.book.author}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* 그림자 효과 - 이미지가 로드된 경우에만 */}
+                      {imageLoaded && (
+                        <div className="absolute -inset-1 bg-gradient-to-r from-black/20 to-gray-600/20 rounded-lg blur opacity-30"></div>
+                      )}
                     </div>
                   </div>
                   
-                  <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
-                    <p className="text-gray-300 leading-relaxed mb-4">{result.book.description}</p>
-                    
-
-                  </div>
-                  
-                  {/* 주요 테마 키워드 클라우드 */}
-                  {result.book.themes && result.book.themes.length > 0 && (
-                    <div className="space-y-4">
-                      <div className="text-sm text-gray-400 mb-3 flex items-center gap-2">
-                        <span className="text-lg">🏷️</span>
-                        <span>주요 테마</span>
+                  <div className="space-y-6">
+                    <div className="text-center">
+                      <h3 className="text-2xl font-bold text-black mb-2 font-serif">{result.book.title}</h3>
+                      <p className="text-gray-700 text-lg mb-4 font-typewriter">by {result.book.author}</p>
+                      <div className="inline-flex px-4 py-2 bg-black/10 rounded-full border border-black/20">
+                        <span className="text-black text-sm font-medium font-typewriter">{result.book.genre}</span>
                       </div>
-                      <TextCloud words={result.book.themes} className="h-48" />
                     </div>
-                  )}
-                  
-                  {/* 타이핑 효과로 인용구 표시 */}
-                  {result.book.quote && (
-                    <TypewriterNote 
-                      text={result.book.quote}
-                      speed={30}
-                      className="mt-6"
-                    />
-                  )}
-                </div>
+                    
+                    <div className="bg-black/5 rounded-2xl p-6 border border-black/10">
+                      <p className="text-gray-800 leading-relaxed mb-4 font-typewriter">{result.book.description}</p>
+                    </div>
+                    
+                    {/* 주요 테마 키워드 클라우드 */}
+                    {result.book.themes && result.book.themes.length > 0 && (
+                      <div className="space-y-4">
+                        <div className="text-sm text-gray-600 mb-3 flex items-center gap-2 font-typewriter">
+                          <span>주요 테마</span>
+                        </div>
+                        <TextCloud words={result.book.themes} />
+                      </div>
+                    )}
+
+                    {/* 작품 속 한 구절 */}
+                    {result.book.quote && (
+                      <div className="bg-black/5 rounded-2xl p-6 border border-black/10">
+                        <div className="flex items-center gap-3 mb-4">
+
+                          <h3 className="text-lg font-bold text-black font-serif">작품 속 한 구절</h3>
+                          <div className="flex-1 border-b border-black/20"></div>
+                        </div>
+                        <TypewriterNote 
+                          text={result.book.quote}
+                          className="text-gray-800 font-typewriter"
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
               {/* 향기 추천 */}
-              <div className="bg-gradient-to-br from-purple-900/30 to-violet-900/30 backdrop-blur-lg rounded-3xl p-8 border border-purple-400/20">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="text-3xl">🌸</span>
-                  <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-300 to-violet-300 bg-clip-text text-transparent">
-                    영혼의 향기
-                  </h2>
-                </div>
+              <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 border border-black/20 shadow-2xl relative overflow-hidden">
+                {/* 디지털 노트 패턴 */}
+                <div className="absolute inset-0" style={{
+                  backgroundImage: `
+                    repeating-linear-gradient(90deg, transparent 0px, transparent 19px, rgba(0,0,0,0.02) 20px, rgba(0,0,0,0.02) 21px),
+                    repeating-linear-gradient(0deg, transparent 0px, transparent 23px, rgba(0,0,0,0.03) 24px, rgba(0,0,0,0.03) 25px)
+                  `
+                }}></div>
                 
-                <div className="space-y-6">
-                  <div className="text-center">
-                    <h3 className="text-2xl font-bold text-white mb-2">{result.fragrance.literaryName}</h3>
-                    <p className="text-purple-200 text-lg mb-4">{result.fragrance.baseScent}</p>
-                    <div className="flex justify-center gap-2 mb-4">
-                      <div className="px-4 py-2 bg-purple-500/20 rounded-full border border-purple-400/30">
-                        <span className="text-purple-300 text-sm font-medium">{result.fragrance.category}</span>
-                      </div>
-                      <div className="px-4 py-2 bg-violet-500/20 rounded-full border border-violet-400/30">
-                        <span className="text-violet-300 text-sm font-medium">{result.fragrance.intensity}</span>
-                      </div>
-                    </div>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-6">
+                    <h2 className="text-3xl font-bold text-black font-serif">
+                      당신을 위한 북퍼퓸
+                    </h2>
                   </div>
                   
-                  <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
-                    <p className="text-gray-300 leading-relaxed mb-4 whitespace-pre-wrap break-words overflow-visible text-ellipsis-none" style={{ textOverflow: 'clip', overflow: 'visible', whiteSpace: 'pre-wrap' }}>{result.fragrance.description}</p>
-                    
-                    {result.fragrance.mood.length > 0 && (
-                      <div className="mb-4">
-                        <div className="text-sm text-gray-400 mb-2">분위기</div>
-                        <div className="flex flex-wrap gap-2">
-                          {result.fragrance.mood.map((mood, index) => (
-                            <span key={index} className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs border border-purple-400/30">
-                              {mood}
-                            </span>
-                          ))}
+                  <div className="space-y-6">
+                    <div className="text-center">
+                      <h3 className="text-2xl font-bold text-black mb-2 font-serif">{result.fragrance.literaryName}</h3>
+                      <p className="text-gray-700 text-lg mb-4 font-typewriter">{result.fragrance.baseScent}</p>
+                      <div className="flex justify-center gap-2 mb-4">
+                        <div className="px-4 py-2 bg-black/10 rounded-full border border-black/20">
+                          <span className="text-black text-sm font-medium font-typewriter">{result.fragrance.category}</span>
+                        </div>
+                        <div className="px-4 py-2 bg-black/10 rounded-full border border-black/20">
+                          <span className="text-black text-sm font-medium font-typewriter">{result.fragrance.intensity}</span>
                         </div>
                       </div>
-                    )}
+                    </div>
+                    
+                    <div className="bg-black/5 rounded-2xl p-6 border border-black/10">
+                      <p className="text-gray-800 leading-relaxed mb-4 font-typewriter whitespace-pre-wrap break-words overflow-visible text-ellipsis-none" style={{ textOverflow: 'clip', overflow: 'visible', whiteSpace: 'pre-wrap' }}>{result.fragrance.description}</p>
+                    </div>
+                    
+                    {/* 향기 차트 */}
+                    <FragranceChart characteristics={result.fragrance.characteristics} />
                   </div>
-                  
-                  {/* 향기 차트 */}
-                  <FragranceChart characteristics={result.fragrance.characteristics} />
                 </div>
               </div>
-            </div>
 
-            {/* AI 심층 분석 섹션 - 메인 추천 아래로 이동 */}
-            {result.deepAnalysis && (
-              <div className="bg-gradient-to-br from-indigo-900/30 to-purple-900/30 backdrop-blur-lg rounded-3xl p-8 border border-indigo-400/20">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="text-3xl">🔮</span>
-                  <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent">
-                    AI 심층 분석
-                  </h2>
-                </div>
-                
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div className="space-y-6">
-                    <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
-                      <h3 className="text-lg font-semibold text-indigo-300 mb-3 flex items-center gap-2">
-                        <span>🧠</span> 당신의 심리 프로필
-                      </h3>
-                      <p className="text-gray-300 leading-relaxed text-sm">
-                        {result.deepAnalysis.userPsychology}
-                      </p>
+              {/* 분위기 섹션 - 별도 카드 */}
+              {result.fragrance.mood.length > 0 && (
+                <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 border border-black/20 shadow-2xl relative overflow-hidden">
+                  {/* 디지털 노트 패턴 */}
+                  <div className="absolute inset-0" style={{
+                    backgroundImage: `
+                      repeating-linear-gradient(90deg, transparent 0px, transparent 19px, rgba(0,0,0,0.02) 20px, rgba(0,0,0,0.02) 21px),
+                      repeating-linear-gradient(0deg, transparent 0px, transparent 23px, rgba(0,0,0,0.03) 24px, rgba(0,0,0,0.03) 25px)
+                    `
+                  }}></div>
+                  
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-3 mb-6">
+                      <h2 className="text-3xl font-bold text-black font-serif">
+                        향기의 분위기
+                      </h2>
                     </div>
                     
-                    <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
-                      <h3 className="text-lg font-semibold text-purple-300 mb-3 flex items-center gap-2">
-                        <span>💫</span> 숨겨진 욕구
-                      </h3>
-                      <p className="text-gray-300 leading-relaxed text-sm">
-                        {result.deepAnalysis.hiddenNeeds}
-                      </p>
+                    <div className="bg-black/5 rounded-2xl p-6 border border-black/10">
+                      <div className="text-sm text-gray-600 mb-4 font-typewriter">이 향기가 전하는 감정과 분위기</div>
+                      <div className="flex flex-wrap gap-3">
+                        {result.fragrance.mood.map((mood, index) => (
+                          <span key={index} className="px-4 py-2 bg-black/10 text-black rounded-full text-sm border border-black/20 font-typewriter font-medium">
+                            {mood}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
+                </div>
+              )}
+            </div>
+
+            {/* AI 심층 분석 섹션 */}
+            {result.deepAnalysis && (
+              <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 border border-black/20 shadow-2xl relative overflow-hidden">
+                {/* 디지털 노트 패턴 */}
+                <div className="absolute inset-0" style={{
+                  backgroundImage: `
+                    repeating-linear-gradient(90deg, transparent 0px, transparent 19px, rgba(0,0,0,0.02) 20px, rgba(0,0,0,0.02) 21px),
+                    repeating-linear-gradient(0deg, transparent 0px, transparent 23px, rgba(0,0,0,0.03) 24px, rgba(0,0,0,0.03) 25px)
+                  `
+                }}></div>
+                
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-6">
+                    <h2 className="text-3xl font-bold text-black font-serif">
+                      AI 심층 분석
+                    </h2>
+                  </div>
                   
-                  <div className="space-y-6">
-                    <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
-                      <h3 className="text-lg font-semibold text-cyan-300 mb-3 flex items-center gap-2">
-                        <span>🎭</span> 감정적 공명
-                      </h3>
-                      <p className="text-gray-300 leading-relaxed text-sm">
-                        {result.deepAnalysis.emotionalResonance}
-                      </p>
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div className="space-y-6">
+                      <div className="bg-black/5 rounded-2xl p-6 border border-black/10">
+                        <h3 className="text-lg font-semibold text-black mb-3 flex items-center gap-2 font-serif">
+                          당신의 심리 프로필
+                        </h3>
+                        <p className="text-gray-800 leading-relaxed text-sm font-typewriter">
+                          {result.deepAnalysis.userPsychology}
+                        </p>
+                      </div>
+                      
+                      <div className="bg-black/5 rounded-2xl p-6 border border-black/10">
+                        <h3 className="text-lg font-semibold text-black mb-3 flex items-center gap-2 font-serif">
+                          숨겨진 욕구
+                        </h3>
+                        <p className="text-gray-800 leading-relaxed text-sm font-typewriter">
+                          {result.deepAnalysis.hiddenNeeds}
+                        </p>
+                      </div>
                     </div>
                     
-                    <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
-                      <h3 className="text-lg font-semibold text-yellow-300 mb-3 flex items-center gap-2">
-                        <span>🏷️</span> 당신만의 키워드
-                      </h3>
-                      <TextCloud words={result.deepAnalysis.personalKeywords} />
+                    <div className="space-y-6">
+                      <div className="bg-black/5 rounded-2xl p-6 border border-black/10">
+                        <h3 className="text-lg font-semibold text-black mb-3 flex items-center gap-2 font-serif">
+                          감정적 공명
+                        </h3>
+                        <p className="text-gray-800 leading-relaxed text-sm font-typewriter">
+                          {result.deepAnalysis.emotionalResonance}
+                        </p>
+                      </div>
+                      
+                      <div className="bg-black/5 rounded-2xl p-6 border border-black/10">
+                        <h3 className="text-lg font-semibold text-black mb-3 flex items-center gap-2 font-serif">
+                          당신만의 키워드
+                        </h3>
+                        <TextCloud words={result.deepAnalysis.personalKeywords} />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -299,43 +426,59 @@ export default function ResultPage() {
             )}
 
             {/* 개인화된 추천 이유 */}
-            <div className="bg-gradient-to-br from-cyan-900/30 to-teal-900/30 backdrop-blur-lg rounded-3xl p-8 border border-cyan-400/20">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="text-3xl">💡</span>
-                <h2 className="text-3xl font-bold bg-gradient-to-r from-cyan-300 to-teal-300 bg-clip-text text-transparent">
-                  당신만을 위한 추천 이유
-                </h2>
-              </div>
+            <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 border border-black/20 shadow-2xl relative overflow-hidden">
+              {/* 디지털 노트 패턴 */}
+              <div className="absolute inset-0" style={{
+                backgroundImage: `
+                  repeating-linear-gradient(90deg, transparent 0px, transparent 19px, rgba(0,0,0,0.02) 20px, rgba(0,0,0,0.02) 21px),
+                  repeating-linear-gradient(0deg, transparent 0px, transparent 23px, rgba(0,0,0,0.03) 24px, rgba(0,0,0,0.03) 25px)
+                `
+              }}></div>
               
-              <div className="bg-white/5 rounded-2xl p-8 border border-white/10">
-                <p className="text-gray-300 leading-relaxed text-lg">
-                  {result.matchReason}
-                </p>
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-6">
+                  <h2 className="text-3xl font-bold text-black font-serif">
+                    당신만을 위한 추천 이유
+                  </h2>
+                </div>
+                
+                <div className="bg-black/5 rounded-2xl p-8 border border-black/10">
+                  <p className="text-gray-800 leading-relaxed text-lg font-typewriter">
+                    {result.matchReason}
+                  </p>
+                </div>
               </div>
             </div>
 
             {/* 대안 추천 */}
             {result.alternativeBooks.length > 0 && (
-              <div className="bg-gradient-to-br from-amber-900/30 to-orange-900/30 backdrop-blur-lg rounded-3xl p-8 border border-amber-400/20">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="text-3xl">📖</span>
-                  <h2 className="text-3xl font-bold bg-gradient-to-r from-amber-300 to-orange-300 bg-clip-text text-transparent">
-                    다른 가능성들
-                  </h2>
-                </div>
+              <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 border border-black/20 shadow-2xl relative overflow-hidden">
+                {/* 디지털 노트 패턴 */}
+                <div className="absolute inset-0" style={{
+                  backgroundImage: `
+                    repeating-linear-gradient(90deg, transparent 0px, transparent 19px, rgba(0,0,0,0.02) 20px, rgba(0,0,0,0.02) 21px),
+                    repeating-linear-gradient(0deg, transparent 0px, transparent 23px, rgba(0,0,0,0.03) 24px, rgba(0,0,0,0.03) 25px)
+                  `
+                }}></div>
                 
-                <div className="grid md:grid-cols-3 gap-6">
-                  {result.alternativeBooks.slice(0, 3).map((book, index) => (
-                    <div key={book.id} className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 group">
-                      <div className="text-center">
-                        <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full flex items-center justify-center text-xl mb-4 mx-auto group-hover:scale-110 transition-transform">
-                          📚
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-6">
+                    <h2 className="text-3xl font-bold text-black font-serif">
+                      다른 가능성들
+                    </h2>
+                  </div>
+                  
+                  <div className="grid md:grid-cols-3 gap-6">
+                    {result.alternativeBooks.slice(0, 3).map((book, index) => (
+                      <div key={book.id} className="bg-black/5 rounded-2xl p-6 border border-black/10 hover:bg-black/10 transition-all duration-300 group">
+                        <div className="text-center">
+
+                          <h4 className="text-black font-bold text-lg mb-2 font-serif">{book.title}</h4>
+                          <p className="text-gray-700 text-sm font-typewriter">{book.author}</p>
                         </div>
-                        <h4 className="text-white font-bold text-lg mb-2">{book.title}</h4>
-                        <p className="text-amber-300 text-sm">{book.author}</p>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
@@ -346,19 +489,19 @@ export default function ResultPage() {
         <div className="flex flex-col sm:flex-row gap-6 justify-center mt-16">
           <button
             onClick={handleRestart}
-            className="group px-10 py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-2xl hover:from-pink-600 hover:to-purple-600 transition-all duration-300 hover-glow transform hover:scale-105 font-bold text-lg"
+            className="group px-10 py-4 bg-black text-white rounded-2xl hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 font-bold text-lg shadow-xl border-2 border-black/20 font-typewriter"
           >
             <span className="flex items-center gap-3">
-              <span className="text-2xl group-hover:rotate-180 transition-transform duration-500">🔄</span>
+
               다시 추천받기
             </span>
           </button>
           <button
             onClick={handleGoHome}
-            className="group px-10 py-4 bg-white/10 text-white rounded-2xl hover:bg-white/20 transition-all duration-300 backdrop-blur-sm border border-white/20 font-bold text-lg"
+            className="group px-10 py-4 bg-white text-black rounded-2xl hover:bg-gray-50 transition-all duration-300 backdrop-blur-sm border-2 border-black/20 font-bold text-lg shadow-xl font-typewriter"
           >
             <span className="flex items-center gap-3">
-              <span className="text-2xl group-hover:scale-110 transition-transform duration-300">🏠</span>
+
               홈으로 가기
             </span>
           </button>

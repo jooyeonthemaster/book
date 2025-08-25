@@ -42,7 +42,7 @@ export function SurveyNavigation({
         } else {
           const nextStep = currentStep + 1
           setCurrentStep(nextStep)
-          if (nextStep <= 8) {
+          if (nextStep <= 5) {
             router.push(`/survey/step-${nextStep}`)
           } else {
             router.push('/survey/result')
@@ -52,7 +52,7 @@ export function SurveyNavigation({
     } else if (!isLastStep) {
       const nextStep = currentStep + 1
       setCurrentStep(nextStep)
-      if (nextStep <= 8) {
+      if (nextStep <= 5) {
         router.push(`/survey/step-${nextStep}`)
       } else {
         router.push('/survey/result')
@@ -64,20 +64,20 @@ export function SurveyNavigation({
   }
 
   return (
-    <div className="flex justify-center items-center pt-8 gap-6">
-      {/* 이전 버튼 - 개선된 디자인 */}
+    <div className="flex justify-center items-center gap-4">
+      {/* 이전 버튼 */}
       <button
         onClick={handlePrev}
         disabled={currentStep === 1}
         className={`
-          min-w-[120px] px-6 py-3 rounded-xl font-semibold text-base transition-all duration-300 transform border
+          min-w-[120px] px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 transform border-2 font-typewriter relative overflow-hidden
           ${currentStep === 1 
-            ? 'bg-gray-700/30 text-gray-400 border-gray-600/30 cursor-not-allowed' 
-            : 'bg-white/15 text-white border-white/20 hover:bg-white/25 hover:border-white/40 hover:scale-105 hover:shadow-lg'
+            ? 'bg-gray-50 text-gray-300 border-gray-200 cursor-not-allowed' 
+            : 'bg-white text-black border-black/15 hover:bg-black hover:text-white hover:border-black hover:scale-[1.02] hover:shadow-lg'
           }
         `}
       >
-        ← 이전
+        <span className="relative z-10">이전</span>
       </button>
       
       {/* 다음 버튼 */}
@@ -85,14 +85,21 @@ export function SurveyNavigation({
         onClick={handleNext}
         disabled={nextDisabled}
         className={`
-          min-w-[140px] lego-text text-lg px-8 py-3 rounded-xl transition-all duration-300 hover-glow transform border
+          min-w-[140px] px-8 py-3 rounded-xl font-semibold text-sm transition-all duration-300 transform border-2 relative overflow-hidden font-typewriter
           ${nextDisabled
-            ? 'bg-gray-600/40 text-gray-300 border-gray-500/40 cursor-not-allowed'
-            : 'bg-gradient-to-r from-pink-500 to-purple-500 text-white border-pink-400/50 hover:from-pink-600 hover:to-purple-600 hover:border-pink-300 hover:scale-105 hover:shadow-xl'
+            ? 'bg-gray-50 text-gray-300 border-gray-200 cursor-not-allowed'
+            : 'bg-black text-white border-black hover:bg-white hover:text-black hover:border-black hover:scale-[1.02] hover:shadow-lg'
           }
         `}
       >
-        {isLastStep ? '🎯 결과 보기' : '다음 →'}
+        {!nextDisabled && (
+          <div 
+            className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"
+          />
+        )}
+        <span className="relative z-10">
+          {isLastStep ? '결과 보기' : '다음'}
+        </span>
       </button>
     </div>
   )

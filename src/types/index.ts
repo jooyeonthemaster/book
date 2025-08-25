@@ -1,5 +1,13 @@
 // 사용자 입력 데이터 타입
 export interface UserPreferences {
+  // 새로운 5단계 질문 필드들
+  currentMood: string          // 1단계: 현재 감정 상태
+  lifeStage: string           // 2단계: 인생 단계
+  storyStyle: string          // 3단계: 선호하는 이야기 방식
+  themes: string[]            // 4단계: 관심 주제들
+  bookMeaning: string         // 5단계: 책의 의미 (주관식)
+  
+  // 기존 필드들 (호환성 유지)
   age: string
   gender: string
   favoriteGenres: string[]
@@ -7,8 +15,6 @@ export interface UserPreferences {
   moodPreference: string
   fragrancePreference: string
   personalityTraits: string[]
-  currentMood: string
-  readingEnvironment: string
   additionalNotes: string
 }
 

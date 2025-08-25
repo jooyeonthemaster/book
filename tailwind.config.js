@@ -12,7 +12,9 @@ module.exports = {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        'lego': ['Orbitron', 'monospace'],
+        'typewriter': ['var(--font-typewriter)', 'Courier New', 'monospace'],
+        'serif': ['var(--font-serif)', 'Georgia', 'serif'],
+        'vintage': ['Courier New', 'monospace'],
       },
       animation: {
         'grid-blur': 'grid-blur 3s ease-in-out infinite',

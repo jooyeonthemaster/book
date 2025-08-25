@@ -1,5 +1,5 @@
 import { SurveyProvider } from '@/contexts/SurveyContext'
-import { GridBackground } from '@/components/GridBackground'
+import { NotebookBackground } from '@/components/NotebookBackground'
 
 export default function SurveyLayout({
   children,
@@ -9,7 +9,7 @@ export default function SurveyLayout({
   return (
     <SurveyProvider>
       <main className="relative min-h-screen">
-        <GridBackground />
+        <NotebookBackground />
         <div className="relative z-10">
           {children}
         </div>

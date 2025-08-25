@@ -107,3 +107,5 @@ export default function FragranceChart({ characteristics, className = '' }: Frag
     </div>
   )
 }
+
+
