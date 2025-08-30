@@ -74,10 +74,10 @@ export default function Step2Page() {
   ]
 
   return (
-    <div className="h-screen flex items-center justify-center px-3 py-4 overflow-hidden">
-      <div className="max-w-4xl w-full h-full flex flex-col">
+    <div className="min-h-screen-mobile flex items-start justify-center px-3 py-4 xs:xs-survey-container">
+      <div className="max-w-4xl w-full flex flex-col">
         {/* 미래지향적 화이트 설문지 */}
-        <div className="bg-white/95 backdrop-blur-xl border border-black/20 rounded-3xl p-4 md:p-6 shadow-2xl relative overflow-hidden h-full flex flex-col">
+        <div className="bg-white/95 backdrop-blur-xl border border-black/20 rounded-3xl p-4 md:p-6 shadow-2xl relative min-h-screen-mobile flex flex-col xs:xs-survey-content xs:rounded-2xl xs:min-h-0 xs:overflow-visible">
           {/* 디지털 노트 패턴 */}
           <div className="absolute inset-0" style={{
             backgroundImage: `
@@ -86,7 +86,7 @@ export default function Step2Page() {
             `
           }}></div>
           
-          <div className="relative z-10 h-full flex flex-col">
+          <div className="relative z-10 flex flex-col">
             {/* 헤더 섹션 - 컴팩트 */}
             <div className="flex-shrink-0">
               <SurveyProgress />
@@ -101,7 +101,7 @@ export default function Step2Page() {
                 <div 
                   className="w-full h-px bg-gradient-to-r from-transparent via-black to-transparent mb-3 opacity-20"
                 ></div>
-                <h1 className="font-serif text-2xl md:text-3xl text-black font-bold mb-2">
+                <h1 className="font-serif text-2xl md:text-3xl text-black font-bold mb-2 xs:xs-title xs:mb-1">
                   <span 
                     className="bg-gradient-to-r from-black via-gray-800 to-black bg-clip-text text-transparent"
                   >
@@ -117,7 +117,7 @@ export default function Step2Page() {
             {/* 메인 콘텐츠 - 컴팩트 사이즈 */}
             <div className="flex-grow-0 flex flex-col justify-center">
               {/* 인생 단계 선택 카드들 */}
-              <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-2 gap-4 mb-6 xs:grid-cols-1 xs:gap-3">
                 {lifeStageOptions.map((stage, index) => (
                   <div
                     key={stage.value}

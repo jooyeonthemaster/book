@@ -13,7 +13,7 @@ export default function SurveyPage() {
     resetFormData()
     // 첫 번째 단계로 리다이렉트
     router.push('/survey/step-1')
-  }, [resetFormData, router])
+  }, []) // 빈 의존성 배열로 한 번만 실행
 
   return (
     <div className="min-h-screen flex items-center justify-center">

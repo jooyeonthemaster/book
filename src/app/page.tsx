@@ -4,9 +4,9 @@ import { SurveyStartButton } from '@/components/SurveyStartButton'
 
 export default function Home() {
   return (
-    <main className="relative h-screen overflow-hidden">
+    <main className="relative h-screen-mobile xs:xs-optimized">
       <NotebookBackground />
-      <div className="relative z-10 h-full flex flex-col">
+      <div className="relative z-10 h-full flex flex-col xs:xs-hero">
         <HeroSection />
         <SurveyStartButton />
       </div>

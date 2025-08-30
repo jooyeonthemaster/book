@@ -73,7 +73,7 @@ export function EnhancedErrorPage({
               
               {/* 시스템 상태 */}
               <div className="text-gray-500 text-xs font-typewriter mb-2">
-                System Status: ERROR • {new Date().toLocaleTimeString('ko-KR')}
+                System Status: ERROR
               </div>
               <div className="w-full h-px bg-gradient-to-r from-transparent via-red-300 to-transparent mb-4"></div>
             </div>

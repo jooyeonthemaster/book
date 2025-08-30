@@ -49,10 +49,10 @@ export default function Step1Page() {
   ]
 
   return (
-    <div className="h-screen flex items-center justify-center px-3 py-4 overflow-hidden">
-      <div className="max-w-4xl w-full h-full flex flex-col">
+    <div className="min-h-screen-mobile flex items-start justify-center px-3 py-4 xs:xs-survey-container">
+      <div className="max-w-4xl w-full flex flex-col">
         {/* 미래지향적 화이트 설문지 */}
-        <div className="bg-white/95 backdrop-blur-xl border border-black/20 rounded-3xl p-4 md:p-6 shadow-2xl relative overflow-hidden h-full flex flex-col">
+        <div className="bg-white/95 backdrop-blur-xl border border-black/20 rounded-3xl p-4 md:p-6 shadow-2xl relative min-h-screen-mobile flex flex-col xs:xs-survey-content xs:rounded-2xl xs:min-h-0 xs:overflow-visible">
           {/* 디지털 노트 패턴 */}
           <div className="absolute inset-0" style={{
             backgroundImage: `
@@ -61,29 +61,29 @@ export default function Step1Page() {
             `
           }}></div>
           
-          <div className="relative z-10 h-full flex flex-col">
+          <div className="relative z-10 flex flex-col">
             {/* 헤더 섹션 - 컴팩트 */}
             <div className="flex-shrink-0">
               <SurveyProgress />
               
               {/* 설문지 헤더 */}
-              <div className="text-center mb-4">
+              <div className="text-center mb-4 xs:mb-2">
                 <div 
-                  className="text-gray-500 text-xs mb-2 font-typewriter"
+                  className="text-gray-500 text-xs mb-2 font-typewriter xs:xs-small-text xs:mb-1"
                 >
                   ◦ Step 1 of 5 - 감정 상태 파악
                 </div>
                 <div 
-                  className="w-full h-px bg-gradient-to-r from-transparent via-black to-transparent mb-3 opacity-20"
+                  className="w-full h-px bg-gradient-to-r from-transparent via-black to-transparent mb-3 opacity-20 xs:mb-2"
                 ></div>
-                <h1 className="font-serif text-2xl md:text-3xl text-black font-bold mb-2">
+                <h1 className="font-serif text-2xl md:text-3xl text-black font-bold mb-2 xs:xs-title xs:mb-1">
                   <span 
                     className="bg-gradient-to-r from-black via-gray-800 to-black bg-clip-text text-transparent"
                   >
                     지금 이 순간의 당신은?
                   </span>
                 </h1>
-                <p className="text-gray-600 text-sm font-typewriter">
+                <p className="text-gray-600 text-sm font-typewriter xs:xs-text">
                   현재 기분에 맞는 책을 찾아드릴게요
                 </p>
               </div>
@@ -92,12 +92,12 @@ export default function Step1Page() {
             {/* 메인 콘텐츠 - 컴팩트 사이즈 */}
             <div className="flex-grow-0 flex flex-col justify-center">
               {/* 기분 선택 카드들 */}
-              <div className="grid grid-cols-2 gap-6 mb-8">
+              <div className="grid grid-cols-2 gap-6 mb-8 xs:grid-cols-1 xs:gap-3 xs:mb-4">
                 {moodOptions.map((mood, index) => (
                   <div
                     key={mood.value}
                     onClick={() => setCurrentMood(mood.value)}
-                    className={`p-6 py-8 rounded-xl border-2 cursor-pointer transition-all duration-300 relative overflow-hidden group ${
+                    className={`p-6 py-8 rounded-xl border-2 cursor-pointer transition-all duration-300 relative overflow-hidden group xs:xs-survey-option xs:rounded-lg ${
                       currentMood === mood.value
                         ? 'border-black bg-black/5 shadow-lg'
                         : 'border-black/10 bg-white/50 hover:border-black/30 hover:bg-black/5'
@@ -107,24 +107,24 @@ export default function Step1Page() {
                     {/* 선택 시 글로우 효과 */}
                     {currentMood === mood.value && (
                       <div 
-                        className="absolute inset-0 bg-gradient-to-r from-black/5 to-transparent"
+                        className="absolute inset-0 bg-gradient-to-r from-black/5 to-transparent xs:xs-reduce-motion"
                         style={{ animation: 'pulse-glow 3s ease-in-out infinite' }}
                       ></div>
                     )}
                     
                     <div className="relative z-10">
-                      <div className="text-sm font-bold text-black mb-3 font-typewriter">
+                      <div className="text-sm font-bold text-black mb-3 font-typewriter xs:xs-text xs:mb-2">
                         {mood.label}
                       </div>
-                      <div className="text-gray-600 text-xs font-typewriter">
+                      <div className="text-gray-600 text-xs font-typewriter xs:xs-small-text">
                         {mood.desc}
                       </div>
                     </div>
                     
                     {/* 선택 표시 */}
                     {currentMood === mood.value && (
-                      <div className="absolute top-3 right-3 w-5 h-5 bg-black rounded-full flex items-center justify-center">
-                        <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                      <div className="absolute top-3 right-3 w-5 h-5 bg-black rounded-full flex items-center justify-center xs:top-2 xs:right-2 xs:w-4 xs:h-4">
+                        <div className="w-1.5 h-1.5 bg-white rounded-full xs:w-1 xs:h-1"></div>
                       </div>
                     )}
                   </div>
@@ -135,11 +135,11 @@ export default function Step1Page() {
             {/* 하단 섹션 - 고정 */}
             <div className="flex-shrink-0">
               {/* 네비게이션 버튼들 - 배경 패턴 안에 위치 */}
-              <div className="flex justify-center items-center gap-6">
+              <div className="flex justify-center items-center gap-6 xs:xs-nav-buttons">
                 {/* 이전 버튼 - 화이트 테마 */}
                 <button
                   onClick={handlePrev}
-                  className="min-w-[120px] px-6 py-3 rounded-xl font-semibold text-base transition-all duration-300 transform border font-typewriter bg-white text-black border-black/20 hover:bg-black/5 hover:border-black/40 hover:scale-105 hover:shadow-lg backdrop-blur-sm"
+                  className="min-w-[120px] px-6 py-3 rounded-xl font-semibold text-base transition-all duration-300 transform border font-typewriter bg-white text-black border-black/20 hover:bg-black/5 hover:border-black/40 hover:scale-105 hover:shadow-lg backdrop-blur-sm xs:xs-button xs:min-w-[100px] xs:rounded-lg"
                 >
                   ← 이전
                 </button>
@@ -149,7 +149,7 @@ export default function Step1Page() {
                   onClick={handleNext}
                   disabled={!isValid}
                   className={`
-                    min-w-[140px] font-serif text-lg px-8 py-3 rounded-xl transition-all duration-300 transform border relative overflow-hidden
+                    min-w-[140px] font-serif text-lg px-8 py-3 rounded-xl transition-all duration-300 transform border relative overflow-hidden xs:xs-button-large xs:min-w-[120px] xs:rounded-lg
                     ${!isValid
                       ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
                       : 'bg-black text-white border-black hover:bg-gray-800 hover:scale-105 hover:shadow-xl'
@@ -169,10 +169,10 @@ export default function Step1Page() {
               </div>
 
               {/* 미래적 장식 */}
-              <div className="flex justify-center items-center gap-4 mt-4 text-gray-400">
-                <div className="w-8 h-px bg-gradient-to-r from-transparent via-black to-transparent opacity-30"></div>
-                <div className="text-xs font-typewriter">1 / 5</div>
-                <div className="w-8 h-px bg-gradient-to-r from-transparent via-black to-transparent opacity-30"></div>
+              <div className="flex justify-center items-center gap-4 mt-4 text-gray-400 xs:mt-2 xs:gap-2">
+                <div className="w-8 h-px bg-gradient-to-r from-transparent via-black to-transparent opacity-30 xs:w-6"></div>
+                <div className="text-xs font-typewriter xs:xs-small-text">1 / 5</div>
+                <div className="w-8 h-px bg-gradient-to-r from-transparent via-black to-transparent opacity-30 xs:w-6"></div>
               </div>
             </div>
           </div>

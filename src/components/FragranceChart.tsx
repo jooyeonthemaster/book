@@ -38,9 +38,9 @@ export default function FragranceChart({ characteristics, className = '' }: Frag
   ]
 
   return (
-    <div className={`space-y-4 ${className}`}>
-      <div className="text-sm text-gray-400 mb-4 flex items-center gap-2">
-        <span className="text-lg">🎨</span>
+    <div className={`space-y-4 ${className} xs:xs-fragrance-chart`}>
+      <div className="text-sm text-black mb-4 flex items-center gap-2 xs:xs-text xs:mb-2">
+        <span className="text-lg xs:text-base">🎨</span>
         <span>향기 구성 분석</span>
       </div>
       
@@ -56,10 +56,10 @@ export default function FragranceChart({ characteristics, className = '' }: Frag
           >
             <div className="flex items-center gap-3 mb-2">
               <span className="text-lg">{item.icon}</span>
-              <div className="w-20 text-sm text-gray-300 capitalize font-medium">
+              <div className="w-20 text-sm text-black capitalize font-medium">
                 {item.label}
               </div>
-              <div className="flex-1 bg-white/5 rounded-full h-3 overflow-hidden border border-white/10">
+              <div className="flex-1 bg-gray-100 rounded-full h-3 overflow-hidden border border-gray-300">
                 <div 
                   className={`bg-gradient-to-r ${item.color} h-full rounded-full transition-all duration-1000 ease-out relative overflow-hidden`}
                   style={{ 
@@ -72,7 +72,7 @@ export default function FragranceChart({ characteristics, className = '' }: Frag
                        style={{ transform: 'translateX(-100%)', animation: 'shimmer 2s infinite' }} />
                 </div>
               </div>
-              <div className="w-12 text-sm text-gray-400 text-right font-mono">
+              <div className="w-12 text-sm text-black text-right font-mono">
                 <span className={`transition-all duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
                   {value}/10
                 </span>
@@ -80,7 +80,7 @@ export default function FragranceChart({ characteristics, className = '' }: Frag
             </div>
             
             {/* 호버 시 추가 정보 */}
-            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 ml-8 text-xs text-gray-500">
+            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 ml-8 text-xs text-black">
               {value > 7 && "매우 강함"}
               {value > 4 && value <= 7 && "적당함"}
               {value > 0 && value <= 4 && "은은함"}
@@ -91,13 +91,13 @@ export default function FragranceChart({ characteristics, className = '' }: Frag
       })}
       
       {/* 전체적인 향기 강도 표시 */}
-      <div className="mt-6 p-4 bg-white/5 rounded-xl border border-white/10">
+      <div className="mt-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
         <div className="text-center">
-          <div className="text-xs text-gray-400 mb-2">전체 향기 강도</div>
+          <div className="text-xs text-black mb-2">전체 향기 강도</div>
           <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
             {Math.round((Object.values(animatedValues).reduce((a, b) => a + b, 0) / 6) * 10) / 10}/10
           </div>
-          <div className="text-xs text-gray-500 mt-1">
+          <div className="text-xs text-black mt-1">
             {Object.values(animatedValues).reduce((a, b) => a + b, 0) > 30 && "진하고 복합적인 향"}
             {Object.values(animatedValues).reduce((a, b) => a + b, 0) > 15 && Object.values(animatedValues).reduce((a, b) => a + b, 0) <= 30 && "균형잡힌 향"}
             {Object.values(animatedValues).reduce((a, b) => a + b, 0) <= 15 && "은은하고 섬세한 향"}
@@ -107,5 +107,6 @@ export default function FragranceChart({ characteristics, className = '' }: Frag
     </div>
   )
 }
+
 
 

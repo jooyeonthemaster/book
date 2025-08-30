@@ -1,7 +1,8 @@
 'use client'
 
-import { createContext, useContext, useState, ReactNode } from 'react'
+import { createContext, useContext, useState, ReactNode, useCallback } from 'react'
 import { UserPreferences } from '@/types'
+import { RecommendationResult } from '@/lib/recommendationService'
 
 interface SurveyContextType {
   formData: UserPreferences
@@ -10,6 +11,11 @@ interface SurveyContextType {
   currentStep: number
   setCurrentStep: (step: number) => void
   totalSteps: number
+  // 추천 결과 캐시
+  mainRecommendation: RecommendationResult | null
+  setMainRecommendation: (result: RecommendationResult | null) => void
+  bookRecommendations: { [bookId: string]: RecommendationResult }
+  setBookRecommendation: (bookId: string, result: RecommendationResult) => void
 }
 
 const initialFormData: UserPreferences = {
@@ -38,14 +44,28 @@ export function SurveyProvider({ children }: { children: ReactNode }) {
   const [currentStep, setCurrentStep] = useState(1)
   const totalSteps = 5
 
-  const updateFormData = (data: Partial<UserPreferences>) => {
-    setFormData(prev => ({ ...prev, ...data }))
-  }
+  // 추천 결과 캐시 상태
+  const [mainRecommendation, setMainRecommendation] = useState<RecommendationResult | null>(null)
+  const [bookRecommendations, setBookRecommendationsState] = useState<{ [bookId: string]: RecommendationResult }>({})
 
-  const resetFormData = () => {
+  const updateFormData = useCallback((data: Partial<UserPreferences>) => {
+    setFormData(prev => ({ ...prev, ...data }))
+  }, [])
+
+  const resetFormData = useCallback(() => {
     setFormData(initialFormData)
     setCurrentStep(1)
-  }
+    // 캐시도 초기화
+    setMainRecommendation(null)
+    setBookRecommendationsState({})
+  }, [])
+
+  const setBookRecommendation = useCallback((bookId: string, result: RecommendationResult) => {
+    setBookRecommendationsState(prev => ({
+      ...prev,
+      [bookId]: result
+    }))
+  }, [])
 
   return (
     <SurveyContext.Provider value={{
@@ -54,7 +74,11 @@ export function SurveyProvider({ children }: { children: ReactNode }) {
       resetFormData,
       currentStep,
       setCurrentStep,
-      totalSteps
+      totalSteps,
+      mainRecommendation,
+      setMainRecommendation,
+      bookRecommendations,
+      setBookRecommendation
     }}>
       {children}
     </SurveyContext.Provider>

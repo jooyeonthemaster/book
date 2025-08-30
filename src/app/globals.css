@@ -610,6 +610,340 @@ a:hover ~ .custom-cursor {
   }
 }
 
+/* iOS Safari 100vh 문제 해결 - 전역 적용 */
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+/* 100dvh 지원 브라우저용 */
+@supports (height: 100dvh) {
+  html {
+    height: 100dvh;
+  }
+  
+  body {
+    min-height: 100dvh;
+  }
+}
+
+/* 480px 미만 모바일 최적화 (모든 소형 모바일) */
+@media screen and (max-width: 479px) {
+  /* 전역 스크롤 강제 활성화 */
+  html, body {
+    height: auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  
+  /* iOS Safari 100vh 문제 해결 */
+  html {
+    height: -webkit-fill-available !important;
+  }
+
+  body {
+    min-height: 100vh !important;
+    min-height: -webkit-fill-available !important;
+  }
+  
+  /* 100dvh 지원 시 */
+  @supports (height: 100dvh) {
+    html {
+      height: 100dvh !important;
+    }
+    
+    body {
+      min-height: 100dvh !important;
+    }
+  }
+  
+  /* 기본 레이아웃 최적화 */
+  .xs-optimized {
+    padding: 0.5rem !important;
+    margin: 0 !important;
+  }
+  
+  /* 텍스트 크기 최적화 */
+  .xs-title {
+    font-size: 0.875rem !important; /* 14px */
+    line-height: 1.3 !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  /* 설문조사 h1 제목 강제 적용 - 최고 우선순위 */
+  .font-serif.text-2xl,
+  .font-serif.text-3xl,
+  .font-serif.text-4xl,
+  .font-serif.text-5xl,
+  h1.font-serif,
+  h2.font-serif,
+  h1,
+  h2 {
+    font-size: 1.125rem !important; /* 18px */
+    line-height: 1.3 !important;
+  }
+  
+  /* span 내부 텍스트도 강제 적용 */
+  h1 span,
+  h2 span {
+    font-size: 1.125rem !important; /* 18px */
+    line-height: 1.3 !important;
+  }
+  
+  .xs-subtitle {
+    font-size: 1rem !important; /* 16px */
+    line-height: 1.4 !important;
+    margin-bottom: 0.25rem !important;
+  }
+  
+  .xs-text {
+    font-size: 0.875rem !important; /* 14px */
+    line-height: 1.4 !important;
+  }
+  
+  .xs-small-text {
+    font-size: 0.75rem !important; /* 12px */
+    line-height: 1.3 !important;
+  }
+  
+  /* 로딩창 단계 텍스트만 축소 - 최강 우선순위 */
+  .xs-loading-text {
+    font-size: 0.6rem !important; /* 10px */
+    line-height: 1.2 !important;
+  }
+  
+  /* 로딩창 그리드 내부 텍스트 강제 축소 */
+  .grid.grid-cols-4 .text-xs.font-typewriter.xs-loading-text {
+    font-size: 0.6rem !important; /* 10px */
+    line-height: 1.2 !important;
+  }
+  
+  /* 로딩창 컨테이너 전용 */
+  div[class*="grid-cols-4"] div[class*="xs-loading-text"] {
+    font-size: 0.6rem !important; /* 10px */
+    line-height: 1.2 !important;
+  }
+  
+  /* 버튼 최적화 */
+  .xs-button {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+    min-height: 44px !important; /* 터치 친화적 최소 크기 */
+  }
+  
+  .xs-button-large {
+    padding: 0.75rem 1.25rem !important;
+    font-size: 1rem !important;
+    min-height: 48px !important;
+  }
+  
+  /* 간격 최적화 */
+  .xs-spacing {
+    gap: 0.5rem !important;
+  }
+  
+  .xs-margin {
+    margin: 0.5rem !important;
+  }
+  
+  .xs-padding {
+    padding: 0.5rem !important;
+  }
+  
+  /* 카드/컨테이너 최적화 */
+  .xs-card {
+    padding: 0.75rem !important;
+    margin: 0.5rem 0 !important;
+    border-radius: 0.5rem !important;
+  }
+  
+  /* 그리드 최적화 */
+  .xs-grid-1 {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .xs-grid-2 {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+  
+  /* Step-4 페이지 전용 모바일 최적화 - 안전한 방법 */
+  .xs-theme-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+  
+  .xs-theme-button {
+    padding: 1rem 0.75rem !important;
+    font-size: 0.875rem !important;
+    min-height: 60px !important;
+    border-radius: 0.75rem !important;
+  }
+  
+  .xs-theme-category {
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .xs-theme-spacing {
+    gap: 1.5rem !important;
+  }
+  
+  /* 설문조사 전용 최적화 - 완전 재설계 */
+  .xs-survey-container {
+    height: auto !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    padding: 0.5rem !important;
+    overflow: visible !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  
+  .xs-survey-content {
+    padding: 0.75rem !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+  }
+  
+  /* 스크롤 강제 활성화 */
+  .xs-overflow-visible {
+    overflow: visible !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  
+  .xs-survey-option {
+    padding: 0.75rem !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    margin-bottom: 0.5rem !important;
+    font-size: 0.875rem !important;
+  }
+  
+  .xs-progress-bar {
+    height: 0.25rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  /* 네비게이션 최적화 */
+  .xs-nav-buttons {
+    gap: 0.75rem !important;
+    padding: 0.5rem !important;
+  }
+  
+  /* 결과 페이지 최적화 */
+  .xs-result-container {
+    padding: 0.5rem !important;
+  }
+  
+  .xs-book-card {
+    padding: 0.75rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .xs-fragrance-chart {
+    height: 200px !important;
+    margin: 0.5rem 0 !important;
+  }
+  
+  /* 히어로 섹션 최적화 */
+  .xs-hero {
+    padding: 1rem 0.5rem !important;
+    min-height: 70vh !important;
+  }
+  
+  .xs-hero-title {
+    font-size: 1.25rem !important; /* 20px */
+    line-height: 1.2 !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .xs-hero-subtitle {
+    font-size: 0.875rem !important; /* 14px */
+    margin-bottom: 1rem !important;
+  }
+  
+  /* 스크롤 최적화 */
+  .xs-scroll-container {
+    max-height: calc(100vh - 2rem) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  
+  /* 375px 전용 스크롤 최적화 - 재설계 */
+  @media screen and (max-width: 375px) {
+    .xs-survey-container {
+      height: auto !important;
+      min-height: 100vh !important;
+      overflow-y: visible !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+    
+    .xs-survey-content {
+      height: auto !important;
+      min-height: auto !important;
+    }
+    
+    /* body 스크롤 강제 활성화 */
+    body {
+      overflow-y: auto !important;
+      height: auto !important;
+    }
+  }
+  
+  /* 입력 필드 최적화 */
+  .xs-input {
+    padding: 0.75rem !important;
+    font-size: 1rem !important; /* 줌 방지를 위해 16px 유지 */
+    border-radius: 0.5rem !important;
+  }
+  
+  .xs-textarea {
+    padding: 0.75rem !important;
+    font-size: 1rem !important; /* 줌 방지를 위해 16px 유지 */
+    min-height: 120px !important;
+  }
+  
+  /* 애니메이션 최적화 (성능을 위해 간소화) */
+  .xs-reduce-motion {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  /* 커스텀 커서 비활성화 (터치 디바이스) */
+  .custom-cursor {
+    display: none !important;
+  }
+  
+  body {
+    cursor: auto !important;
+  }
+}
+
+/* 380px 이상 480px 미만 (소형 모바일 추가 최적화) */
+@media screen and (min-width: 380px) and (max-width: 479px) {
+  .xs-plus-title {
+    font-size: 1.375rem !important; /* 22px */
+  }
+  
+  .xs-plus-text {
+    font-size: 0.9375rem !important; /* 15px */
+  }
+  
+  .xs-plus-padding {
+    padding: 0.75rem !important;
+  }
+  
+  .xs-plus-survey-option {
+    padding: 1rem !important;
+  }
+}
+
 /* 아이패드 4:3 세로 화면 최적화 */
 @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
   /* 아이패드 세로 화면 (768x1024, 1536x2048 등) */

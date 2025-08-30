@@ -175,7 +175,12 @@ export function EnhancedLoadingPage({
                         : 'bg-white border-black/20 text-gray-600'
                     }`}
                   >
-                    <div className="text-xs font-typewriter">{step}</div>
+                    <div 
+                      className="text-xs font-typewriter"
+                      style={{ fontSize: '0.6rem' }}
+                    >
+                      {step}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -228,7 +233,7 @@ export function EnhancedLoadingPage({
           <div className="inline-block bg-white/80 backdrop-blur-sm rounded-xl px-4 py-2 border border-black/10">
             <div className="text-gray-500 font-typewriter text-xs flex items-center gap-2">
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-              Gemini AI 연결됨 • {new Date().toLocaleTimeString('ko-KR')}
+              Gemini AI 연결됨
             </div>
           </div>
         </div>
