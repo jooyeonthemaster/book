@@ -29,26 +29,29 @@ export function EnhancedLoadingPage({
   }
 
   useEffect(() => {
+    // 모바일 체크
+    const isMobile = window.innerWidth < 480
+
     // 초기 인용문 설정
     const initialQuote = getRandomQuote()
     setCurrentQuote(initialQuote.quote)
     setCurrentAuthor(`${initialQuote.author}, 『${initialQuote.title}』`)
 
-    // 5초마다 인용문 변경
+    // 모바일에서는 인용문 변경 빈도 줄임 (10초)
     const quoteInterval = setInterval(() => {
       const newQuote = getRandomQuote()
       setCurrentQuote(newQuote.quote)
       setCurrentAuthor(`${newQuote.author}, 『${newQuote.title}』`)
       setQuoteIndex(prev => prev + 1)
-    }, 5000)
+    }, isMobile ? 10000 : 5000)
 
-    // 로딩 진행률 시뮬레이션
+    // 모바일에서는 진행률 업데이트 빈도 줄임 (500ms)
     const progressInterval = setInterval(() => {
       setLoadingProgress(prev => {
         if (prev >= 95) return prev
         return prev + Math.random() * 3
       })
-    }, 200)
+    }, isMobile ? 500 : 200)
 
     return () => {
       clearInterval(quoteInterval)
@@ -228,15 +231,7 @@ export function EnhancedLoadingPage({
           </div>
         </div>
 
-        {/* 하단 시스템 정보 */}
-        <div className="text-center mt-6">
-          <div className="inline-block bg-white/80 backdrop-blur-sm rounded-xl px-4 py-2 border border-black/10">
-            <div className="text-gray-500 font-typewriter text-xs flex items-center gap-2">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-              Gemini AI 연결됨
-            </div>
-          </div>
-        </div>
+
       </div>
 
       {/* CSS 애니메이션 */}

@@ -1,0 +1,160 @@
+/* 🎨 컴포넌트 전용 CSS */
+
+/* 레고 스타일 텍스트 - 포스터 스타일 */
+.lego-text {
+  font-family: 'Arial Black', 'Helvetica', sans-serif;
+  font-weight: 900;
+  color: white;
+  text-shadow:
+    -3px -3px 0 #000,
+    3px -3px 0 #000,
+    -3px 3px 0 #000,
+    3px 3px 0 #000,
+    -4px -4px 0 #000,
+    4px -4px 0 #000,
+    -4px 4px 0 #000,
+    4px 4px 0 #000,
+    -5px -5px 0 #000,
+    5px -5px 0 #000,
+    -5px 5px 0 #000,
+    5px 5px 0 #000,
+    0 0 15px rgba(0,0,0,0.9);
+  letter-spacing: 0.02em;
+  font-stretch: condensed;
+  text-transform: uppercase;
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+/* 그리드 패턴 */
+.grid-pattern {
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* 모자이크 타일 스타일 */
+.mosaic-tile {
+  transition: all 0.3s ease;
+  border-radius: 3px;
+  filter: blur(0.5px);
+}
+
+.mosaic-tile:hover {
+  transform: scale(1.05);
+  z-index: 10;
+  filter: blur(0px);
+}
+
+/* 버튼 호버 글로우 효과 */
+.hover-glow {
+  transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 
+    0 0 20px rgba(236, 72, 153, 0.3),
+    0 0 40px rgba(168, 85, 247, 0.2),
+    0 4px 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+/* 그라디언트 배경 */
+.bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
+/* 노트북/종이 스타일 */
+.notebook-paper {
+  background: var(--paper-texture);
+  background-image: 
+    repeating-linear-gradient(
+      transparent 0px,
+      transparent 25px,
+      rgba(59, 130, 246, 0.15) 26px,
+      rgba(59, 130, 246, 0.15) 27px
+    );
+  background-size: 100% 27px;
+}
+
+.notebook-margin {
+  border-left: 2px solid rgba(239, 68, 68, 0.4);
+  padding-left: 2rem;
+}
+
+/* 타이핑 효과 */
+.typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background-color: var(--ink-color);
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* 종이 텍스처 효과 */
+.paper-texture {
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 80% 50%, rgba(120, 119, 198, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 40% 50%, rgba(120, 119, 198, 0.1) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 100px 100px;
+}
+
+/* 빈티지 스타일 */
+.vintage-shadow {
+  box-shadow: 
+    inset 0 0 100px rgba(139, 69, 19, 0.1),
+    inset 0 0 50px rgba(139, 69, 19, 0.05),
+    0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.ink-stain {
+  background: radial-gradient(circle, rgba(139, 69, 19, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(1px);
+}
+
+/* 손글씨 스타일 */
+.handwriting {
+  font-family: 'Courier New', monospace;
+  transform: rotate(-1deg);
+  letter-spacing: 0.05em;
+}
+
+/* 노트 구멍 */
+.notebook-holes {
+  background: 
+    radial-gradient(circle at 2rem, white 6px, transparent 7px),
+    radial-gradient(circle at 2rem, #d1d5db 6px, transparent 7px);
+  background-size: 100% 2rem;
+  background-position: 0 1rem;
+}
+
+/* 종이 가장자리 효과 */
+.paper-edge {
+  position: relative;
+}
+
+.paper-edge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0,0,0,0.05) 0%,
+    transparent 10%,
+    transparent 90%,
+    rgba(0,0,0,0.05) 100%
+  );
+  pointer-events: none;
+}

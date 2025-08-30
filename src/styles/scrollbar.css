@@ -1,0 +1,111 @@
+/* 📜 스크롤바 전용 CSS */
+
+/* 커스텀 스크롤바 - 글래스모피즘 스타일 */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(236, 72, 153, 0.6) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    135deg,
+    rgba(236, 72, 153, 0.8) 0%,
+    rgba(168, 85, 247, 0.8) 100%
+  );
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(236, 72, 153, 1) 0%,
+    rgba(168, 85, 247, 1) 100%
+  );
+  box-shadow: 
+    0 0 10px rgba(236, 72, 153, 0.5),
+    0 0 20px rgba(168, 85, 247, 0.3);
+  transform: scaleY(1.1);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(
+    135deg,
+    rgba(219, 39, 119, 1) 0%,
+    rgba(147, 51, 234, 1) 100%
+  );
+}
+
+/* 더 얇은 스크롤바 버전 */
+.thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(236, 72, 153, 0.6) transparent;
+}
+
+.thin-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.7) 0%,
+    rgba(147, 51, 234, 0.7) 100%
+  );
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.9) 0%,
+    rgba(147, 51, 234, 0.9) 100%
+  );
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+/* 전체 페이지 스크롤바 */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.6) 0%,
+    rgba(147, 51, 234, 0.6) 100%
+  );
+  border-radius: 6px;
+  border: 2px solid #1f2937;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.8) 0%,
+    rgba(147, 51, 234, 0.8) 100%
+  );
+}

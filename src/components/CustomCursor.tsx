@@ -5,8 +5,26 @@ import { useEffect, useState } from 'react'
 export function CustomCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [trails, setTrails] = useState<Array<{ x: number; y: number; id: number }>>([])
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    // 모바일 디바이스 체크
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 480 || 'ontouchstart' in window
+      setIsMobile(mobile)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+
+    // 모바일에서는 커서 효과 비활성화
+    if (isMobile) {
+      return () => window.removeEventListener('resize', checkMobile)
+    }
+  }, [isMobile])
+
+  useEffect(() => {
+    if (isMobile) return // 모바일에서는 실행하지 않음
     let trailId = 0
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -33,6 +51,11 @@ export function CustomCursor() {
       clearInterval(trailInterval)
     }
   }, [])
+
+  // 모바일에서는 아무것도 렌더링하지 않음
+  if (isMobile) {
+    return null
+  }
 
   return (
     <>

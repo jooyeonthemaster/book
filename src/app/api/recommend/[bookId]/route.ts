@@ -13,14 +13,17 @@ export async function POST(
     const rawPreferences = await request.json()
     
     console.log('=== Book-specific recommendation API ===')
-    console.log('Book ID:', bookId)
+    console.log('요청된 Book ID:', bookId)
     console.log('Raw preferences:', rawPreferences)
     
     // 지정된 책 찾기
     const selectedBook = verifiedBooks.books.find(book => book.id === bookId)
+    console.log('찾은 책:', selectedBook ? `${selectedBook.title} (${selectedBook.author})` : '책을 찾을 수 없음')
+    
     if (!selectedBook) {
+      console.error(`책 ID ${bookId}를 데이터베이스에서 찾을 수 없습니다.`)
       return NextResponse.json(
-        { error: '해당 책을 찾을 수 없습니다.' },
+        { error: `해당 책(ID: ${bookId})을 찾을 수 없습니다.` },
         { status: 404 }
       )
     }

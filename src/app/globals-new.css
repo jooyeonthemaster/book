@@ -1,0 +1,26 @@
+/* 🎯 새로운 globals.css - 깔끔하게 정리된 버전 */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 기본 스타일 import */
+@import '../styles/base.css';
+
+/* 컴포넌트 스타일 import */
+@import '../styles/components.css';
+
+/* 스크롤바 스타일 import */
+@import '../styles/scrollbar.css';
+
+/* 모바일 최적화 import (항상 로드) */
+@import '../styles/mobile.css';
+
+/* 데스크톱 전용 스타일 (조건부 로드) */
+@media screen and (min-width: 480px) {
+  /* 애니메이션은 데스크톱에서만 로드 */
+  @import '../styles/animations.css';
+  
+  /* 커서는 데스크톱에서만 로드 */
+  @import '../styles/cursor.css';
+}

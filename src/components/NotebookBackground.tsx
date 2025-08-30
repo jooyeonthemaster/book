@@ -1,6 +1,21 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 export function NotebookBackground() {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 480)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   return (
     <div className="fixed inset-0 z-0 overflow-hidden">
       {/* 미래지향적 화이트 & 블랙 배경 */}
@@ -32,41 +47,47 @@ export function NotebookBackground() {
         <div className="absolute left-16 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-black to-transparent opacity-20" />
         <div className="absolute right-16 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-black to-transparent opacity-20" />
         
-        {/* 미래적 데이터 포인트들 */}
-        <div className="absolute left-8 top-0 bottom-0 flex flex-col justify-start pt-8">
-          {Array.from({ length: 20 }).map((_, i) => (
+        {/* 미래적 데이터 포인트들 - 모바일에서는 단순화 */}
+        {!isMobile && (
+          <div className="absolute left-8 top-0 bottom-0 flex flex-col justify-start pt-8">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div 
+                key={i}
+                className="w-2 h-2 bg-black border border-gray-300 rounded-sm mb-8 opacity-30"
+                style={{
+                  transform: `rotate(${i * 2}deg)`,
+                  boxShadow: '0 0 3px rgba(0, 0, 0, 0.1)'
+                }}
+              />
+            ))}
+          </div>
+        )}
+        
+        {/* 고급 모핑 글로우 효과들 - 모바일에서는 비활성화 */}
+        {!isMobile && (
+          <>
             <div 
-              key={i}
-              className="w-2 h-2 bg-black border border-gray-300 rounded-sm mb-8 opacity-30"
+              className="absolute top-20 left-1/4 w-32 h-32 bg-black opacity-3 blur-3xl"
               style={{
-                transform: `rotate(${i * 2}deg)`,
-                boxShadow: '0 0 3px rgba(0, 0, 0, 0.1)'
+                animation: 'morphing-glow 8s ease-in-out infinite, floating 6s ease-in-out infinite'
               }}
             />
-          ))}
-        </div>
-        
-        {/* 고급 모핑 글로우 효과들 */}
-        <div 
-          className="absolute top-20 left-1/4 w-32 h-32 bg-black opacity-3 blur-3xl"
-          style={{
-            animation: 'morphing-glow 8s ease-in-out infinite, floating 6s ease-in-out infinite'
-          }}
-        />
-        <div 
-          className="absolute bottom-32 right-1/3 w-24 h-24 bg-black opacity-4 blur-2xl"
-          style={{
-            animation: 'morphing-glow 10s ease-in-out infinite reverse, floating 7s ease-in-out infinite',
-            animationDelay: '2s'
-          }}
-        />
-        <div 
-          className="absolute top-1/2 left-1/2 w-20 h-20 bg-black opacity-5 blur-xl"
-          style={{
-            animation: 'morphing-glow 12s ease-in-out infinite, floating 5s ease-in-out infinite',
-            animationDelay: '4s'
-          }}
-        />
+            <div 
+              className="absolute bottom-32 right-1/3 w-24 h-24 bg-black opacity-4 blur-2xl"
+              style={{
+                animation: 'morphing-glow 10s ease-in-out infinite reverse, floating 7s ease-in-out infinite',
+                animationDelay: '2s'
+              }}
+            />
+            <div 
+              className="absolute top-1/2 left-1/2 w-20 h-20 bg-black opacity-5 blur-xl"
+              style={{
+                animation: 'morphing-glow 12s ease-in-out infinite, floating 5s ease-in-out infinite',
+                animationDelay: '4s'
+              }}
+            />
+          </>
+        )}
         
         {/* 미래적 파티클 효과 */}
         <div className="absolute top-1/4 right-1/4 w-1 h-1 bg-black rounded-full opacity-40 animate-ping" />

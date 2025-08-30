@@ -29,12 +29,12 @@ export default function FragranceChart({ characteristics, className = '' }: Frag
   }, [characteristics])
 
   const chartItems = [
-    { key: 'citrus', label: '시트러스', color: 'from-yellow-400 to-orange-400', icon: '🍋' },
-    { key: 'floral', label: '플로럴', color: 'from-pink-400 to-rose-400', icon: '🌸' },
-    { key: 'woody', label: '우디', color: 'from-amber-600 to-brown-500', icon: '🌳' },
-    { key: 'musk', label: '머스크', color: 'from-gray-400 to-slate-500', icon: '🦌' },
-    { key: 'fruity', label: '프루티', color: 'from-red-400 to-pink-500', icon: '🍓' },
-    { key: 'spicy', label: '스파이시', color: 'from-orange-500 to-red-600', icon: '🌶️' }
+    { key: 'citrus', label: '시트러스', color: 'from-yellow-500 to-orange-500', icon: '🍋' },
+    { key: 'floral', label: '플로럴', color: 'from-pink-500 to-rose-500', icon: '🌸' },
+    { key: 'woody', label: '우디', color: 'from-amber-700 to-brown-600', icon: '🌳' },
+    { key: 'musk', label: '머스크', color: 'from-gray-600 to-slate-700', icon: '🦌' },
+    { key: 'fruity', label: '프루티', color: 'from-red-500 to-pink-600', icon: '🍓' },
+    { key: 'spicy', label: '스파이시', color: 'from-orange-600 to-red-700', icon: '🌶️' }
   ]
 
   return (
@@ -59,12 +59,12 @@ export default function FragranceChart({ characteristics, className = '' }: Frag
               <div className="w-20 text-sm text-black capitalize font-medium">
                 {item.label}
               </div>
-              <div className="flex-1 bg-gray-100 rounded-full h-3 overflow-hidden border border-gray-300">
+              <div className="flex-1 bg-gray-200 rounded-full h-3 overflow-hidden border border-gray-400">
                 <div 
                   className={`bg-gradient-to-r ${item.color} h-full rounded-full transition-all duration-1000 ease-out relative overflow-hidden`}
                   style={{ 
                     width: isVisible ? `${percentage}%` : '0%',
-                    boxShadow: value > 0 ? `0 0 10px rgba(255, 255, 255, 0.3)` : 'none'
+                    boxShadow: value > 0 ? `0 0 15px rgba(0, 0, 0, 0.2)` : 'none'
                   }}
                 >
                   {/* 반짝이는 효과 */}

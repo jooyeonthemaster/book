@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { RecommendationResult } from '@/lib/recommendationService'
 import { createFirebaseShareUrl, copyFirebaseShareUrl } from '@/lib/firebaseShareService'
 import TextCloud from '@/components/TextCloud'
@@ -44,20 +45,26 @@ export default function ResultDisplay({
     // 매핑된 저자명 사용 (없으면 원본 사용)
     const mappedAuthor = authorMapping[author] || author
     const fileName = `${mappedAuthor}_${title}.jpg`
-    const path = `/bookcover/${fileName}`
+    
+    // 한글 파일명을 URL 안전하게 인코딩
+    const encodedFileName = encodeURIComponent(fileName)
+    const path = `/bookcover/${encodedFileName}`
     
     console.log('=== 이미지 경로 디버깅 ===')
     console.log('원본 저자명:', author)
     console.log('매핑된 저자명:', mappedAuthor)
     console.log('파일명:', fileName)
+    console.log('인코딩된 파일명:', encodedFileName)
     console.log('최종 경로:', path)
     console.log('========================')
     
-    // 이미지 존재 여부 미리 체크
-    const img = new Image()
-    img.onload = () => console.log('✅ 이미지 존재:', path)
-    img.onerror = () => console.log('❌ 이미지 없음:', path)
-    img.src = path
+    // 이미지 존재 여부 미리 체크 (브라우저 환경에서만)
+    if (typeof window !== 'undefined') {
+      const img = new window.Image()
+      img.onload = () => console.log('✅ 이미지 존재:', path)
+      img.onerror = () => console.log('❌ 이미지 없음:', path)
+      img.src = path
+    }
     
     return path
   }
@@ -72,6 +79,11 @@ export default function ResultDisplay({
 
   // 대안 추천 클릭 핸들러
   const handleAlternativeClick = (bookId: number) => {
+    console.log('=== 대안 책 클릭 디버깅 ===')
+    console.log('클릭된 책 ID:', bookId)
+    console.log('alternativeBooks 전체:', result.alternativeBooks)
+    console.log('클릭된 책 정보:', result.alternativeBooks.find(book => book.id === bookId))
+    console.log('========================')
     router.push(`/survey/result/${bookId}`)
   }
 
@@ -159,23 +171,27 @@ export default function ResultDisplay({
                       </div>
                     )}
                     
-                    {/* 실제 이미지 */}
-                    <img 
-                      src={getBookCoverPath(result.book.title, result.book.author)}
+                    {/* Next.js Image 컴포넌트 사용 */}
+                    <Image
+                      src={`/bookcover/${result.book.author}_${result.book.title}.jpg`}
                       alt={`${result.book.title} 표지`}
+                      width={384}
+                      height={576}
                       className={`w-96 h-144 object-cover rounded-lg shadow-xl border-2 border-black/20 transition-opacity duration-500 ${
                         imageLoaded ? 'opacity-100 relative' : 'opacity-0 absolute top-0 left-0'
                       }`}
-                      onLoad={(e) => {
-                        console.log('Image loaded successfully:', e.currentTarget.src)
+                      onLoad={() => {
+                        console.log('✅ Next.js Image loaded successfully')
                         setImageLoaded(true)
                         setImageError(false)
                       }}
-                      onError={(e) => {
-                        console.log('Image failed to load:', e.currentTarget.src)
+                      onError={() => {
+                        console.log('❌ Next.js Image failed to load')
                         setImageError(true)
                         setImageLoaded(false)
                       }}
+                      priority={true}
+                      quality={85}
                     />
                     
                     {/* 에러시 기본 이미지 */}

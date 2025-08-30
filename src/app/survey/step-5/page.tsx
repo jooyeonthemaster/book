@@ -9,18 +9,61 @@ export default function Step5Page() {
   const router = useRouter()
   const { formData, updateFormData, setCurrentStep, currentStep } = useSurvey()
   const [bookMeaning, setBookMeaning] = useState(formData.bookMeaning || '')
+  const [isPreloadingImages, setIsPreloadingImages] = useState(false)
 
   useEffect(() => {
     setCurrentStep(5)
   }, [setCurrentStep])
 
-  const handleNext = () => {
+  // 이미지 미리 로딩 함수
+  const preloadBookCoverImages = async () => {
+    return new Promise<void>((resolve) => {
+      // 주요 책들의 이미지를 미리 로딩
+      const commonBooks = [
+        '빅토리아 마스_미친여자들의 무도회',
+        '황여정_숨과 입자',
+        '최진영_단 한 사람',
+        '김초엽_파견자들',
+        '이설야_내 얼굴이 도착하지 않았다'
+      ]
+      
+      let loadedCount = 0
+      const totalImages = commonBooks.length
+      
+      commonBooks.forEach((bookFile) => {
+        if (typeof window !== 'undefined') {
+          const img = new window.Image()
+          img.onload = img.onerror = () => {
+            loadedCount++
+            if (loadedCount >= totalImages) {
+              resolve()
+            }
+          }
+          img.src = `/bookcover/${bookFile}.jpg`
+        } else {
+          // 서버 사이드에서는 바로 완료 처리
+          loadedCount++
+          if (loadedCount >= totalImages) {
+            resolve()
+          }
+        }
+      })
+      
+      // 최대 3초 후에는 강제로 완료
+      setTimeout(resolve, 3000)
+    })
+  }
+
+  const handleNext = async () => {
     if (bookMeaning.trim()) {
+      setIsPreloadingImages(true)
       updateFormData({ bookMeaning: bookMeaning.trim() })
-      // 약간의 지연 후 결과 페이지로 이동
-      setTimeout(() => {
-        router.push('/survey/result')
-      }, 100)
+      
+      // 이미지 미리 로딩
+      await preloadBookCoverImages()
+      
+      // 결과 페이지로 이동
+      router.push('/survey/result')
     }
   }
 
@@ -124,23 +167,25 @@ export default function Step5Page() {
                 {/* 다음 버튼 */}
                 <button
                   onClick={handleNext}
-                  disabled={!isValid}
+                  disabled={!isValid || isPreloadingImages}
                   className={`
-                    min-w-[140px] font-serif text-lg px-8 py-3 rounded-xl transition-all duration-300 transform border relative overflow-hidden xs:xs-button-large xs:min-w-[120px] xs:rounded-lg
-                    ${!isValid
+                    survey-next-button min-w-[140px] font-serif text-lg px-8 py-3 rounded-xl transition-all duration-300 transform border relative overflow-hidden xs:xs-button-large xs:min-w-[120px] xs:rounded-lg
+                    ${!isValid || isPreloadingImages
                       ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
-                      : 'bg-black text-white border-black hover:bg-gray-800 hover:scale-105 hover:shadow-xl'
+                      : 'bg-white text-black border-black hover:bg-gray-50 hover:scale-105 hover:shadow-xl'
                     }
                   `}
                   style={{
-                    animation: isValid ? 'pulse-glow 3s ease-in-out infinite' : 'none'
+                    animation: isValid && !isPreloadingImages ? 'pulse-glow 3s ease-in-out infinite' : 'none'
                   }}
                 >
-                  {isValid && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-gray-600/10 to-black/10 hover:from-gray-600/20 hover:to-black/20 transition-all duration-300"></div>
-                  )}
-                  <span className="relative z-10">
-                    결과 보기
+                  <span className="relative z-10 text-black font-bold flex items-center gap-2">
+                    {isPreloadingImages && (
+                      <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                    )}
+                    {isPreloadingImages ? '이미지 준비 중...' : '결과 보기'}
                   </span>
                 </button>
               </div>

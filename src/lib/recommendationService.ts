@@ -279,6 +279,12 @@ class RecommendationEngine {
       // 사용 통계 업데이트
       recommendationStats[selectedFragrance.id] = (recommendationStats[selectedFragrance.id] || 0) + 1
 
+      // alternativeBooks ID 유효성 검증 및 수정
+      const validatedAlternativeBooks = this.validateAlternativeBooks(
+        geminiRecommendation.alternativeBooks || [],
+        selectedBook.id
+      )
+
       return {
         book: {
           id: selectedBook.id,
@@ -305,7 +311,7 @@ class RecommendationEngine {
         },
         matchReason: geminiRecommendation.matchReason,
         confidence: geminiRecommendation.confidence,
-        alternativeBooks: geminiRecommendation.alternativeBooks || [],
+        alternativeBooks: validatedAlternativeBooks,
         alternativeFragrances: geminiRecommendation.alternativeFragrances || [],
         deepAnalysis: geminiRecommendation.deepAnalysis || undefined
       }
@@ -448,6 +454,63 @@ class RecommendationEngine {
   // 통계 리셋 (테스트용)
   public resetStats(): void {
     recommendationStats = {}
+  }
+
+  // alternativeBooks ID 유효성 검증 및 수정
+  private validateAlternativeBooks(alternativeBooks: any[], mainBookId: number): any[] {
+    const books = verifiedBooks.books
+    const validatedBooks: any[] = []
+    
+    console.log('=== Alternative Books 유효성 검증 ===')
+    console.log('원본 alternativeBooks:', alternativeBooks)
+    console.log('메인 책 ID:', mainBookId)
+    
+    alternativeBooks.forEach((altBook, index) => {
+      // 실제 데이터베이스에서 해당 ID의 책 찾기
+      const realBook = books.find(book => book.id === altBook.id)
+      
+      if (realBook) {
+        // ID가 존재하면 실제 데이터로 교체
+        const correctedBook = {
+          id: realBook.id,
+          title: realBook.title,
+          author: realBook.author
+        }
+        
+        console.log(`✅ Alternative ${index + 1}: ID ${altBook.id} → ${realBook.title} (${realBook.author})`)
+        validatedBooks.push(correctedBook)
+      } else {
+        // ID가 존재하지 않으면 제목으로 찾기
+        const bookByTitle = books.find(book => 
+          book.title === altBook.title || 
+          book.title.includes(altBook.title) ||
+          altBook.title.includes(book.title)
+        )
+        
+        if (bookByTitle && bookByTitle.id !== mainBookId) {
+          const correctedBook = {
+            id: bookByTitle.id,
+            title: bookByTitle.title,
+            author: bookByTitle.author
+          }
+          
+          console.log(`🔧 Alternative ${index + 1}: "${altBook.title}" → ID ${bookByTitle.id} (${bookByTitle.title})`)
+          validatedBooks.push(correctedBook)
+        } else {
+          console.log(`❌ Alternative ${index + 1}: "${altBook.title}" - 유효하지 않은 책, 제외됨`)
+        }
+      }
+    })
+    
+    // 메인 책과 다른 책들만 유지하고, 최대 3개로 제한
+    const filteredBooks = validatedBooks
+      .filter(book => book.id !== mainBookId)
+      .slice(0, 3)
+    
+    console.log('최종 검증된 alternativeBooks:', filteredBooks)
+    console.log('=====================================')
+    
+    return filteredBooks
   }
 
   // 현재 통계 조회

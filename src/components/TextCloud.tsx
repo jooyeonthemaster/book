@@ -171,7 +171,7 @@ export default function TextCloud({ words, className = '' }: TextCloudProps) {
       {animatedWords.map((word, index) => (
         <div
           key={index}
-          className={`absolute transition-all duration-1000 ease-out opacity-0 animate-fade-in ${word.color} font-medium hover:scale-110 hover:opacity-100 cursor-default select-none font-typewriter`}
+          className={`absolute transition-all duration-1000 ease-out ${word.color} font-medium hover:scale-110 hover:opacity-100 cursor-default select-none font-typewriter`}
           style={{
             left: `${word.x}%`,
             top: `${word.y}%`,
@@ -179,7 +179,9 @@ export default function TextCloud({ words, className = '' }: TextCloudProps) {
             animationDelay: `${word.delay}ms`,
             transform: 'translate(-50%, -50%)',
             textShadow: '0 1px 2px rgba(0,0,0,0.1)',
-            filter: 'drop-shadow(0 1px 1px rgba(255,255,255,0.5))'
+            filter: 'drop-shadow(0 1px 1px rgba(255,255,255,0.5))',
+            animation: `fadeIn 1s ease-out ${word.delay}ms forwards`,
+            opacity: 0
           }}
         >
           {word.text}
@@ -203,6 +205,19 @@ export default function TextCloud({ words, className = '' }: TextCloudProps) {
       </div>
 
 
+      {/* CSS 애니메이션 정의 */}
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+          }
+          to {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+          }
+        }
+      `}</style>
     </div>
   )
 }

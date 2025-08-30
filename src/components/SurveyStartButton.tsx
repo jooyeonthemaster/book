@@ -68,19 +68,16 @@ export function SurveyStartButton() {
                 }}
               >
                 <div 
-                  className="bg-black hover:bg-gray-800 rounded-2xl px-8 py-4 shadow-2xl transform group-hover:scale-105 transition-all duration-300 border border-black/20 relative overflow-hidden xs:xs-button-large xs:rounded-xl xs:px-6 xs:py-3"
+                  className="survey-start-button bg-white hover:bg-gray-50 rounded-2xl px-8 py-4 shadow-2xl transform group-hover:scale-105 transition-all duration-300 border-2 border-black relative overflow-hidden xs:xs-button-large xs:rounded-xl xs:px-6 xs:py-3"
                   style={{
                     animation: 'pulse-glow 3s ease-in-out infinite'
                   }}
                 >
-                  {/* 미래적 글로우 효과 */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-gray-600/10 to-black/10 group-hover:from-gray-600/20 group-hover:to-black/20 transition-all duration-300"></div>
-                  
                   <div className="relative z-10">
-                    <div className="font-serif text-lg text-white font-bold xs:text-base">
+                    <div className="font-serif text-lg text-black font-bold xs:text-base">
                       ◦ 설문 시작하기
                     </div>
-                    <div className="text-gray-300 text-xs mt-1 font-typewriter xs:xs-small-text xs:mt-0.5">
+                    <div className="text-gray-600 text-xs mt-1 font-typewriter xs:xs-small-text xs:mt-0.5">
                       약 1-2분 소요
                     </div>
                   </div>

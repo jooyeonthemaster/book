@@ -1,0 +1,268 @@
+/* 🎭 애니메이션 전용 CSS - 데스크톱에서만 로드 */
+
+/* 그리드 블러 효과 */
+.grid-blur-effect {
+  background: linear-gradient(45deg, 
+    rgba(255, 107, 107, 0.3) 0%, 
+    rgba(78, 205, 196, 0.3) 25%, 
+    rgba(69, 183, 209, 0.3) 50%, 
+    rgba(150, 206, 180, 0.3) 75%, 
+    rgba(255, 107, 107, 0.3) 100%);
+  background-size: 400% 400%;
+  animation: gradient-shift 4s ease-in-out infinite;
+  filter: blur(1px);
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 플로팅 애니메이션 */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* 반짝이는 효과 */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* 펄스 효과 개선 */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* 회전 효과 */
+@keyframes rotate-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-rotate-slow {
+  animation: rotate-slow 10s linear infinite;
+}
+
+/* 바운스 효과 개선 */
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-bounce-gentle {
+  animation: bounce-gentle 2s ease-in-out infinite;
+}
+
+/* 텍스트 클라우드 애니메이션 */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  to {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+/* 홀로그램 효과 */
+@keyframes holographic-shift {
+  0% { 
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+  25% { 
+    background-position: 100% 50%;
+    filter: hue-rotate(90deg);
+  }
+  50% { 
+    background-position: 100% 100%;
+    filter: hue-rotate(180deg);
+  }
+  75% { 
+    background-position: 0% 100%;
+    filter: hue-rotate(270deg);
+  }
+  100% { 
+    background-position: 0% 50%;
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* 모핑 효과 */
+@keyframes morphing-glow {
+  0%, 100% {
+    border-radius: 50% 40% 60% 30%;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  }
+  25% {
+    border-radius: 30% 60% 40% 50%;
+    box-shadow: 0 0 30px rgba(0,0,0,0.15);
+  }
+  50% {
+    border-radius: 60% 30% 50% 40%;
+    box-shadow: 0 0 40px rgba(0,0,0,0.2);
+  }
+  75% {
+    border-radius: 40% 50% 30% 60%;
+    box-shadow: 0 0 30px rgba(0,0,0,0.15);
+  }
+}
+
+/* 스캔라인 효과 */
+@keyframes scanlines {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* 글리치 효과 */
+@keyframes glitch {
+  0%, 100% {
+    transform: translate(0);
+    filter: hue-rotate(0deg);
+  }
+  10% {
+    transform: translate(-2px, 2px);
+    filter: hue-rotate(90deg);
+  }
+  20% {
+    transform: translate(-1px, -1px);
+    filter: hue-rotate(180deg);
+  }
+  30% {
+    transform: translate(1px, 2px);
+    filter: hue-rotate(270deg);
+  }
+  40% {
+    transform: translate(1px, -1px);
+    filter: hue-rotate(360deg);
+  }
+  50% {
+    transform: translate(-1px, 2px);
+  }
+  60% {
+    transform: translate(-1px, 1px);
+  }
+  70% {
+    transform: translate(2px, 1px);
+  }
+  80% {
+    transform: translate(-2px, -1px);
+  }
+  90% {
+    transform: translate(1px, 2px);
+  }
+}
+
+/* 플로팅 효과 */
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+  66% {
+    transform: translateY(5px) rotate(-1deg);
+  }
+}
+
+/* 타이핑 커서 개선 */
+@keyframes cursor-blink {
+  0%, 50% { 
+    opacity: 1; 
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  }
+  51%, 100% { 
+    opacity: 0; 
+    box-shadow: none;
+  }
+}
+
+/* 스크롤 기반 애니메이션 */
+@keyframes scroll-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-reveal {
+  animation: scroll-reveal 0.8s ease-out forwards;
+}
+
+/* 텍스트 글리치 효과 */
+@keyframes text-glitch {
+  0% {
+    text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                 -0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+                 0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  15% {
+    text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                 -0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+                 0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  16% {
+    text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+                 0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+                 -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  49% {
+    text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+                 0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+                 -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  50% {
+    text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+                 0.05em 0 0 rgba(0, 255, 0, 0.75),
+                 0 -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  99% {
+    text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+                 0.05em 0 0 rgba(0, 255, 0, 0.75),
+                 0 -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  100% {
+    text-shadow: none;
+  }
+}

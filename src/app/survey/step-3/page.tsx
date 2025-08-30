@@ -191,20 +191,17 @@ export default function Step3Page() {
                   onClick={handleNext}
                   disabled={!isValid}
                   className={`
-                    min-w-[140px] font-serif text-lg px-8 py-3 rounded-xl transition-all duration-300 transform border relative overflow-hidden
+                    survey-next-button min-w-[140px] font-serif text-lg px-8 py-3 rounded-xl transition-all duration-300 transform border relative overflow-hidden
                     ${!isValid
                       ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
-                      : 'bg-black text-white border-black hover:bg-gray-800 hover:scale-105 hover:shadow-xl'
+                      : 'bg-white text-black border-black hover:bg-gray-50 hover:scale-105 hover:shadow-xl'
                     }
                   `}
                   style={{
                     animation: isValid ? 'pulse-glow 3s ease-in-out infinite' : 'none'
                   }}
                 >
-                  {isValid && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-gray-600/10 to-black/10 hover:from-gray-600/20 hover:to-black/20 transition-all duration-300"></div>
-                  )}
-                  <span className="relative z-10">
+                  <span className="relative z-10 text-black font-bold">
                     다음 →
                   </span>
                 </button>

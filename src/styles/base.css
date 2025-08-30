@@ -1,0 +1,45 @@
+/* 기본 변수 및 베이스 스타일 */
+:root {
+  --background: #fef7ed;
+  --foreground: #374151;
+  --paper-texture: #fefbf3;
+  --ink-color: #1f2937;
+  --vintage-blue: #3b82f6;
+  --vintage-red: #ef4444;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #fef7ed;
+    --foreground: #374151;
+    --paper-texture: #fefbf3;
+    --ink-color: #1f2937;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* iOS Safari 100vh 문제 해결 - 전역 적용 */
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+/* 100dvh 지원 브라우저용 */
+@supports (height: 100dvh) {
+  html {
+    height: 100dvh;
+  }
+  
+  body {
+    min-height: 100dvh;
+  }
+}
