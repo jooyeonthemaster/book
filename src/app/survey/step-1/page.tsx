@@ -17,13 +17,11 @@ export default function Step1Page() {
   const handleNext = () => {
     console.log('Step 1 - handleNext clicked', { currentMood, isValid })
     updateFormData({ currentMood })
-    // 약간의 지연 후 다음 페이지로 이동
-    setTimeout(() => {
-      const nextStep = currentStep + 1
-      console.log('Step 1 - navigating to step:', nextStep)
-      setCurrentStep(nextStep)
-      router.push(`/survey/step-${nextStep}`)
-    }, 100)
+    // 즉시 다음 페이지로 이동
+    const nextStep = currentStep + 1
+    console.log('Step 1 - navigating to step:', nextStep)
+    setCurrentStep(nextStep)
+    router.push(`/survey/step-${nextStep}`)
   }
 
   const handlePrev = () => {

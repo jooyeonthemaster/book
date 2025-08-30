@@ -95,12 +95,24 @@ button[class*="bg-red-500"] span {
 /* Step-4 테마 버튼 텍스트 강제 적용 - 최고 우선순위 */
 button[class*="border-black/15"] span,
 button[class*="bg-white/80"] span,
-.survey-theme-button span {
+.survey-theme-button span,
+button span[style*="color"] {
   color: black !important;
   -webkit-text-fill-color: black !important;
   font-weight: 600 !important;
   opacity: 1 !important;
   visibility: visible !important;
+  display: block !important;
+}
+
+/* Step-4 페이지 특화 텍스트 강제 표시 */
+.survey-theme-button h3,
+.survey-theme-category h3 {
+  color: black !important;
+  -webkit-text-fill-color: black !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
 }
 
 /* 선택된 테마 버튼 텍스트 */

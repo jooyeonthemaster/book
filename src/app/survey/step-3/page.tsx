@@ -16,12 +16,10 @@ export default function Step3Page() {
 
   const handleNext = () => {
     updateFormData({ storyStyle })
-    // 약간의 지연 후 다음 페이지로 이동
-    setTimeout(() => {
-      const nextStep = currentStep + 1
-      setCurrentStep(nextStep)
-      router.push(`/survey/step-${nextStep}`)
-    }, 100)
+    // 즉시 다음 페이지로 이동
+    const nextStep = currentStep + 1
+    setCurrentStep(nextStep)
+    router.push(`/survey/step-${nextStep}`)
   }
 
   const handlePrev = () => {

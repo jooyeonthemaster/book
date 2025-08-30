@@ -24,12 +24,10 @@ export default function Step4Page() {
 
   const handleNext = () => {
     updateFormData({ themes })
-    // 약간의 지연 후 다음 페이지로 이동
-    setTimeout(() => {
-      const nextStep = currentStep + 1
-      setCurrentStep(nextStep)
-      router.push(`/survey/step-${nextStep}`)
-    }, 100)
+    // 즉시 다음 페이지로 이동
+    const nextStep = currentStep + 1
+    setCurrentStep(nextStep)
+    router.push(`/survey/step-${nextStep}`)
   }
 
   const handlePrev = () => {
@@ -139,13 +137,27 @@ export default function Step4Page() {
             {/* 메인 콘텐츠 - 컴팩트 사이즈 */}
             <div className="flex-grow-0 space-y-9 xs:space-y-4">
               {themeCategories.slice(0, 3).map((category, categoryIndex) => (
-                <div key={category.title} className="space-y-3 xs:xs-theme-category">
+                <div key={category.title} className="survey-theme-category space-y-3 xs:xs-theme-category">
                   {/* 카테고리 헤더 */}
                   <div className="relative">
                     <div className="flex items-center gap-3 mb-1">
                       <div className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-black rounded-full"></div>
-                        <h3 className="text-sm font-bold text-black font-typewriter tracking-wide survey-text" style={{ color: 'black !important' }}>{category.title}</h3>
+                        <h3 
+                          style={{ 
+                            color: 'black',
+                            fontSize: '0.875rem',
+                            fontWeight: 'bold',
+                            fontFamily: 'var(--font-typewriter), Courier New, monospace',
+                            letterSpacing: '0.025em',
+                            opacity: '1',
+                            visibility: 'visible',
+                            display: 'block',
+                            WebkitTextFillColor: 'black'
+                          }}
+                        >
+                          {category.title}
+                        </h3>
                       </div>
                       <div className="flex-1 h-0.5 bg-gradient-to-r from-black/30 via-black/10 to-transparent rounded-full"></div>
                       <div className="w-1 h-1 bg-black/40 rounded-full"></div>
@@ -164,41 +176,69 @@ export default function Step4Page() {
                           type="button"
                           onClick={() => handleThemeToggle(theme.name)}
                           className={`
-                            survey-theme-button ${isSelected ? 'selected' : ''} group relative p-4 py-6 rounded-xl border-2 transition-all duration-300 text-center hover:scale-[1.02] hover:shadow-md xs:p-3 xs:py-4 xs:rounded-lg
+                            survey-theme-button ${isSelected ? 'selected' : ''} group relative text-center hover:scale-[1.02] hover:shadow-md
                             ${isSelected 
-                              ? 'border-black bg-black text-white shadow-lg'
-                              : 'border-black/15 bg-white/80 hover:border-black/40 hover:bg-black/5 hover:shadow-lg'
+                              ? 'shadow-lg'
+                              : 'hover:shadow-lg'
                             }
                           `}
-                          style={{}}
+                          style={{
+                            padding: '1rem 0.75rem',
+                            paddingTop: '1.5rem',
+                            paddingBottom: '1.5rem',
+                            borderRadius: '0.75rem',
+                            border: isSelected ? '2px solid black' : '2px solid rgba(0,0,0,0.15)',
+                            backgroundColor: isSelected ? 'black' : 'rgba(255,255,255,0.8)',
+                            color: isSelected ? 'white' : 'black',
+                            transition: 'all 0.3s ease',
+                            minHeight: '80px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
                         >
-                          {/* 선택 시 글로우 효과 */}
-                          {isSelected && (
-                            <div 
-                              className="absolute inset-0 bg-gradient-to-r from-black/5 to-transparent rounded-xl"
-                              style={{ animation: 'pulse-glow 3s ease-in-out infinite' }}
-                            ></div>
-                          )}
+
                           
-                          <div className="relative z-10 flex items-center justify-center h-full">
-                            <span 
-                              className={`font-semibold text-sm font-typewriter transition-colors duration-300 ${
-                                isSelected ? 'text-white' : 'text-black group-hover:text-black'
-                              }`}
-                              style={{
-                                color: isSelected ? 'white !important' : 'black !important',
-                                WebkitTextFillColor: isSelected ? 'white !important' : 'black !important',
-                                fontWeight: '600 !important'
-                              }}
-                            >
-                              {theme.name}
-                            </span>
-                          </div>
+                          <span 
+                            style={{
+                              color: isSelected ? 'white' : 'black',
+                              fontWeight: '600',
+                              fontSize: '0.875rem',
+                              fontFamily: 'var(--font-typewriter), Courier New, monospace',
+                              opacity: '1',
+                              visibility: 'visible',
+                              display: 'block',
+                              textAlign: 'center',
+                              lineHeight: '1.4',
+                              WebkitTextFillColor: isSelected ? 'white' : 'black',
+                              position: 'relative',
+                              zIndex: 10
+                            }}
+                          >
+                            {theme.name}
+                          </span>
                           
                           {/* 선택 표시 */}
                           {isSelected && (
-                            <div className="absolute top-2 right-2 w-5 h-5 bg-white rounded-full flex items-center justify-center shadow-md">
-                              <div className="w-2 h-2 bg-black rounded-full"></div>
+                            <div style={{
+                              position: 'absolute',
+                              top: '0.5rem',
+                              right: '0.5rem',
+                              width: '1.25rem',
+                              height: '1.25rem',
+                              backgroundColor: 'white',
+                              borderRadius: '50%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                            }}>
+                              <div style={{
+                                width: '0.5rem',
+                                height: '0.5rem',
+                                backgroundColor: 'black',
+                                borderRadius: '50%'
+                              }}></div>
                             </div>
                           )}
                         </button>
