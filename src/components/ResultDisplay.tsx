@@ -29,6 +29,8 @@ export default function ResultDisplay({
 }: ResultDisplayProps) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
+  const [imageSrc, setImageSrc] = useState<string>('')
+  const [fallbackQueue, setFallbackQueue] = useState<string[]>([])
   const [shareStatus, setShareStatus] = useState<'idle' | 'copying' | 'success' | 'error'>('idle')
   const [showShareModal, setShowShareModal] = useState(false)
   const [shareUrl, setShareUrl] = useState<string>('')
@@ -69,11 +71,36 @@ export default function ResultDisplay({
     return path
   }
 
+  // 대체 경로 후보 생성 (공백 제거, 저자-제목 순서 교체 등)
+  const getFallbackCoverPaths = (title: string, author: string) => {
+    const authorMapping: { [key: string]: string } = {
+      '마테오 B. 비앙키': '마테오 비앙키',
+    }
+    const mappedAuthor = authorMapping[author] || author
+    const titleNoSpaces = title.replace(/\s+/g, '')
+    const titleFirstSpaceRemoved = title.replace(/\s/, '')
+
+    const candidates = [
+      `${mappedAuthor}_${titleNoSpaces}.jpg`, // 제목 공백 제거
+      `${title}_${mappedAuthor}.jpg`,        // 순서 교체 (일부 자산 오류 대응)
+      `${titleNoSpaces}_${mappedAuthor}.jpg`, // 교체 + 공백 제거
+      `${mappedAuthor}_${titleFirstSpaceRemoved}.jpg`, // 제목 첫 공백만 제거 (특정 케이스)
+      `${titleFirstSpaceRemoved}_${mappedAuthor}.jpg`  // 순서 교체 + 첫 공백 제거
+    ]
+
+    // URL 인코딩 적용
+    return candidates.map((name) => `/bookcover/${encodeURIComponent(name)}`)
+  }
+
   // result가 변경될 때 이미지 상태 초기화
   useEffect(() => {
     if (result) {
       setImageLoaded(false)
       setImageError(false)
+      const primary = getBookCoverPath(result.book.title, result.book.author)
+      const fallbacks = getFallbackCoverPaths(result.book.title, result.book.author)
+      setImageSrc(primary)
+      setFallbackQueue(fallbacks)
     }
   }, [result?.book?.id]) // book id가 변경될 때만 리셋
 
@@ -173,7 +200,7 @@ export default function ResultDisplay({
                     
                     {/* Next.js Image 컴포넌트 사용 */}
                     <Image
-                      src={`/bookcover/${result.book.author}_${result.book.title}.jpg`}
+                      src={imageSrc}
                       alt={`${result.book.title} 표지`}
                       width={384}
                       height={576}
@@ -186,9 +213,21 @@ export default function ResultDisplay({
                         setImageError(false)
                       }}
                       onError={() => {
-                        console.log('❌ Next.js Image failed to load')
-                        setImageError(true)
+                        console.log('❌ Next.js Image failed to load', imageSrc)
+                        // 대체 경로가 남아있다면 순차 시도
                         setImageLoaded(false)
+                        setImageError(false)
+                        setFallbackQueue((queue) => {
+                          if (queue.length > 0) {
+                            const [next, ...rest] = queue
+                            console.log('🔁 Fallback 시도:', next)
+                            setImageSrc(next)
+                            return rest
+                          }
+                          // 더 이상 대체 경로가 없으면 에러 처리
+                          setImageError(true)
+                          return []
+                        })
                       }}
                       priority={true}
                       quality={85}
@@ -224,13 +263,19 @@ export default function ResultDisplay({
                     </div>
                   </div>
                   
+                  {/* AI의 한줄 소개 섹션 제목 */}
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="text-lg font-bold text-black font-serif">ai의 한줄 소개</h3>
+                    <div className="flex-1 border-b border-black/20"></div>
+                  </div>
                   <p className="text-gray-800 leading-relaxed mb-6 font-typewriter">{result.book.description}</p>
                   
                   {/* 주요 테마 키워드 클라우드 */}
                   {result.book.themes && result.book.themes.length > 0 && (
-                    <div className="space-y-4">
-                      <div className="text-sm text-gray-600 mb-3 flex items-center gap-2 font-typewriter">
-                        <span>주요 테마</span>
+                    <div className="mb-6">
+                      <div className="flex items-center gap-3 mb-4">
+                        <h3 className="text-lg font-bold text-black font-serif">ai가 도출한 키워드</h3>
+                        <div className="flex-1 border-b border-black/20"></div>
                       </div>
                       <TextCloud words={result.book.themes} />
                     </div>

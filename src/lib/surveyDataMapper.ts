@@ -9,26 +9,30 @@ export class SurveyDataMapper {
    * 새로운 설문 데이터를 완전한 UserPreferences 객체로 변환
    */
   static mapToUserPreferences(surveyData: Partial<UserPreferences>): UserPreferences {
-    // 현재 5단계 설문조사에서는 currentMood, lifeStage, storyStyle을 수집하지 않음
-    // 테마와 책의 의미를 기반으로 다른 필드들을 추론
-    
+    // 현재 설문에서 실제로 응답된 값만 반영하고, 수집하지 않은 항목은 빈 문자열로 둡니다.
+    // (추론/가정에 의한 기본값 주입을 제거하여 잘못된 개인화 서술을 방지)
     const mappedData: UserPreferences = {
       // 현재 설문에서 수집하는 필드들
-      currentMood: 'balanced', // 기본값
-      lifeStage: 'stability_maturity', // 기본값  
-      storyStyle: 'realistic_social', // 기본값
+      currentMood: (surveyData.currentMood as string) || '',
+      lifeStage: (surveyData.lifeStage as string) || '',
+      storyStyle: (surveyData.storyStyle as string) || '',
       themes: surveyData.themes || [],
       bookMeaning: surveyData.bookMeaning || '',
-      
-      // 기존 필드들 (테마 기반으로 매핑)
-      age: this.mapThemesToAge(surveyData.themes || []),
-      gender: '기타', // 성별을 묻지 않으므로 중성적 처리
+
+      // 기존 호환 필드들
+      // 나이/성별 등은 현재 설문에서 받지 않으므로 빈 문자열 유지
+      age: (surveyData as any).age || '',
+      gender: (surveyData as any).gender || '',
+      // 선호 장르는 사용자가 선택한 테마에서만 유도 (사용자 입력 기반 가공)
       favoriteGenres: this.mapThemesToGenres(surveyData.themes || []),
-      readingHabits: '편안한 환경에서 꾸준히',
-      moodPreference: 'balanced',
+      // 다음 값들은 수집하지 않으므로 임의 기본값을 넣지 않음
+      readingHabits: (surveyData as any).readingHabits || '',
+      moodPreference: (surveyData as any).moodPreference || '',
+      // 향기/성격 특성은 테마 기반 가공으로만 제한 (명시적 응답에 근거)
       fragrancePreference: this.mapThemesToFragrance(surveyData.themes || []),
       personalityTraits: this.mapThemesToPersonality(surveyData.themes || []),
-      additionalNotes: surveyData.bookMeaning || ''
+      // 추가 메모는 별도 입력이 없으면 비움 (bookMeaning을 중복 주입하지 않음)
+      additionalNotes: (surveyData as any).additionalNotes || ''
     }
 
     return mappedData

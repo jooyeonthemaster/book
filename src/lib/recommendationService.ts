@@ -97,29 +97,10 @@ class RecommendationEngine {
     }
   }
 
-  // 성별별 선호도 매칭 (성향 기반, 편견 배제)
-  private getGenderPreferences(gender: string): {
-    preferredCategories: string[]
-    preferredMoods: string[]
-  } {
-    // 성별에 따른 일반적 선호도 (개인차 존재)
-    switch (gender) {
-      case '여성':
-        return {
-          preferredCategories: ['플로럴', '프루티', '머스크'],
-          preferredMoods: ['우아한', '감성적인', '로맨틱', '섬세한']
-        }
-      case '남성':
-        return {
-          preferredCategories: ['우디', '스파이시', '시트러스'],
-          preferredMoods: ['강렬한', '깊이 있는', '남성적인', '세련된']
-        }
-      default:
-        return {
-          preferredCategories: ['시트러스', '플로럴', '우디'],
-          preferredMoods: ['균형잡힌', '중성적인', '자연스러운']
-        }
-    }
+  // 성별 정보 미수집 환경 대응: 성별 기반 가중 로직 제거
+  private getGenderPreferences(_gender: string): { preferredCategories: string[]; preferredMoods: string[] } {
+    // 성별을 수집하지 않음 → 성별 가중치 사용하지 않도록 빈 값 반환
+    return { preferredCategories: [], preferredMoods: [] }
   }
 
   // 장르별 향기 카테고리 매칭
@@ -185,21 +166,19 @@ class RecommendationEngine {
     let score = 0
     const maxScore = 100
 
-    // 1. 나이대 매칭 (20점)
-    const agePrefs = this.getAgePreferences(preferences.age)
-    if (agePrefs.preferredIntensity.includes(fragrance.intensity)) {
-      score += 20
+    // 1. 나이대 매칭 (20점) — 실제 응답이 있을 때만
+    if (preferences.age) {
+      const agePrefs = this.getAgePreferences(preferences.age)
+      if (agePrefs.preferredIntensity.includes(fragrance.intensity)) {
+        score += 20
+      }
     }
 
-    // 2. 성별 선호도 매칭 (15점)
-    const genderPrefs = this.getGenderPreferences(preferences.gender)
-    if (genderPrefs.preferredCategories.includes(fragrance.category)) {
-      score += 15
-    }
+    // 2. 성별 선호도 매칭 (15점) — 현재 설문에 성별 없음 → 미적용
 
     // 3. 장르 매칭 (25점)
     const genreMapping = this.getGenreFragranceMapping()
-    const userGenres = preferences.favoriteGenres
+    const userGenres = preferences.favoriteGenres || []
     let genreScore = 0
     userGenres.forEach(genre => {
       if (genreMapping[genre]?.includes(fragrance.category)) {

@@ -108,13 +108,7 @@ export function EnhancedLoadingPage({
           <div className="relative z-10">
             {/* AI 분석 헤더 */}
             <div className="text-center mb-8">
-              <div className="flex items-center justify-center gap-4 mb-6">
-                <div 
-                  className="text-3xl"
-                  style={{
-                    animation: 'pulse-glow 2s ease-in-out infinite'
-                  }}
-                >🤖</div>
+              <div className="mb-6">
                 <div className="text-gray-500 text-sm font-typewriter">
                   AI Literary Analysis System v3.0
                 </div>
@@ -124,27 +118,12 @@ export function EnhancedLoadingPage({
                 {title}
               </h1>
               <p className="text-gray-600 text-sm font-typewriter">
-                {subtitle} ✨
+                {subtitle}
               </p>
             </div>
 
             {/* 미래지향적 로딩 애니메이션 */}
             <div className="mb-8">
-              {/* 메인 로딩 스피너 */}
-              <div className="flex justify-center mb-6">
-                <div className="relative">
-                  {/* 외부 링 */}
-                  <div className="w-24 h-24 border-4 border-black/10 rounded-full"></div>
-                  {/* 회전하는 링 */}
-                  <div className="absolute inset-0 w-24 h-24 border-4 border-transparent border-t-black rounded-full animate-spin"></div>
-                  {/* 내부 펄스 */}
-                  <div className="absolute inset-3 w-18 h-18 bg-black/5 rounded-full animate-pulse"></div>
-                  {/* 중앙 아이콘 */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-2xl animate-bounce">📚</div>
-                  </div>
-                </div>
-              </div>
 
               {/* 진행률 바 */}
               <div className="mb-4">
@@ -192,7 +171,6 @@ export function EnhancedLoadingPage({
             {/* 인용문 섹션 */}
             <div className="bg-black/5 rounded-2xl p-6 border border-black/10 relative">
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-lg">📖</span>
                 <span className="text-gray-600 font-typewriter text-sm">오늘의 문학</span>
               </div>
               
@@ -223,9 +201,7 @@ export function EnhancedLoadingPage({
               </div>
             </div>
 
-            {/* 미래적 코너 장식 */}
-            <div className="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 border-black/20"></div>
-            <div className="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2 border-black/20"></div>
+            {/* 미래적 코너 장식 (상단 제거) */}
             <div className="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2 border-black/20"></div>
             <div className="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2 border-black/20"></div>
           </div>

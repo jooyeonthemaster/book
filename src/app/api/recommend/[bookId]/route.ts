@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { UserPreferences } from '@/types'
 import { SurveyDataMapper } from '@/lib/surveyDataMapper'
+import { toKoreanMood, toKoreanLifeStage } from '@/lib/valueNormalizer'
 import verifiedBooks from '@/data/verified_books.json'
 import verifiedFragrances from '@/data/verified_fragrances.json'
 
@@ -111,7 +112,7 @@ function generatePersonalizedReason(
 ): string {
   const reasons = []
 
-  // 현재 기분과 책의 연관성
+  // 현재 기분과 책의 연관성 (응답이 있는 경우에만)
   if (preferences.currentMood) {
     const moodBookMapping: { [key: string]: string } = {
       'peaceful': '평온한 마음',
@@ -122,23 +123,24 @@ function generatePersonalizedReason(
       'philosophical': '철학적 사고'
     }
     
-    const moodText = moodBookMapping[preferences.currentMood] || preferences.currentMood
+    const moodText = moodBookMapping[preferences.currentMood] || toKoreanMood(preferences.currentMood)
     reasons.push(`현재 ${moodText}에 있는 당신에게 '${book.title}'은 완벽한 선택입니다`)
   }
 
-  // 인생 단계와 책의 연관성
+  // 인생 단계와 책의 연관성 (응답이 있는 경우에만)
   if (preferences.lifeStage) {
     const lifeStageMapping: { [key: string]: string } = {
       'youth_growth': '성장의 시기',
       'love_relationship': '사랑과 관계를 고민하는 시기',
       'career_success': '커리어 성공을 추구하는 시기',
+      'career_challenge': '도전과 성취를 추구하는 시기',
       'family_responsibility': '가족에 대한 책임감을 느끼는 시기',
       'stability_maturity': '안정과 성숙을 추구하는 시기',
       'freedom_exploration': '자유와 탐험을 원하는 시기',
       'reflection_wisdom': '성찰과 지혜를 구하는 시기'
     }
     
-    const stageText = lifeStageMapping[preferences.lifeStage] || preferences.lifeStage
+    const stageText = lifeStageMapping[preferences.lifeStage] || toKoreanLifeStage(preferences.lifeStage)
     reasons.push(`${stageText}에 있는 당신의 마음과 깊이 공명할 것입니다`)
   }
 

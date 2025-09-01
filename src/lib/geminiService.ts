@@ -1,5 +1,6 @@
 import { UserPreferences } from '@/types'
 import { GeminiResponse } from '@/types'
+import { toKoreanMood } from './valueNormalizer'
 
 // Gemini API 서비스 클래스
 export class GeminiService {
@@ -126,6 +127,8 @@ Keywords: ${book.keywords?.join(', ') || 'N/A'}
     booksData: any[],
     fragrancesData: any[]
   ): string {
+    // 한국어 표현으로 정규화해 프롬프트에 사용
+    const moodKo = toKoreanMood(preferences.currentMood)
     const booksSummary = this.summarizeBooks(booksData)
     const fragrancesSummary = this.summarizeFragrances(fragrancesData)
 
@@ -135,38 +138,38 @@ Keywords: ${book.keywords?.join(', ') || 'N/A'}
 
 ## 🔮 사용자의 내면 세계 분석:
 
-### 기본 정체성
-- 나이: ${preferences.age} (이 시기의 특별한 감수성과 인생 단계를 고려)
-- 성별: ${preferences.gender} (사회적 경험과 감정 표현 방식 고려)
+### 기본 정체성 (응답된 항목만 언급)
+${preferences.age ? `- 나이: ${preferences.age}` : ''}
+${preferences.gender ? `- 성별: ${preferences.gender}` : ''}
 
 ### 문학적 취향의 심층 분석
-- 선호장르: ${preferences.favoriteGenres.join(', ')} 
+- 선호장르: ${(preferences.favoriteGenres || []).join(', ')} 
   → 이 장르들이 드러내는 사용자의 무의식적 욕구와 내적 갈등은?
   → 어떤 감정적 해소나 지적 자극을 추구하는가?
 
 ### 독서 패턴의 심리적 의미
-- 독서습관: ${preferences.readingHabits}
+- 독서습관: ${preferences.readingHabits || '응답 없음'}
   → 이 습관이 보여주는 사용자의 성격적 특성과 라이프스타일은?
   → 책을 통해 어떤 도피나 성장을 추구하는가?
 
 ### 성격의 깊은 층위
-- 성격특성: ${preferences.personalityTraits?.join(', ') || '미지의 영역'}
+- 성격특성: ${(preferences.personalityTraits || []).join(', ') || '응답 없음'}
   → 이 특성들이 만들어내는 독특한 감정적 패턴은?
   → 숨겨진 욕구나 억압된 감정은 무엇인가?
 
 ### 현재 감정 상태의 미묘한 뉘앙스
-- 현재기분: ${preferences.currentMood || '복잡미묘한 상태'}
-- 원하는분위기: ${preferences.moodPreference || '말로 표현하기 어려운 갈망'}
+- 현재기분: ${moodKo || '응답 없음'}
+- 원하는분위기: ${preferences.moodPreference || '응답 없음'}
   → 이 감정들 뒤에 숨은 진짜 욕구는?
   → 어떤 치유나 위로, 혹은 자극을 원하는가?
 
 ### 감각적 선호도의 심리적 배경
-- 향기선호: ${preferences.fragrancePreference || '아직 발견하지 못한 취향'}
-- 독서습관: ${preferences.readingHabits || '특별한 독서 경험에 대한 갈망'}
+- 향기선호: ${preferences.fragrancePreference || '응답 없음'}
+- 독서습관: ${preferences.readingHabits || '응답 없음'}
   → 이 선호도들이 드러내는 사용자의 감각적 민감성은?
 
 ### 숨겨진 메시지
-- 추가메모: ${preferences.additionalNotes || '침묵 속에 담긴 의미'}
+- 추가메모: ${preferences.additionalNotes || '응답 없음'}
   → 이 메모에서 읽어낼 수 있는 진짜 마음은?
 
 ## 📚 문학 작품 데이터베이스:
